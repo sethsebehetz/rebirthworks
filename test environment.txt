@@ -1,0 +1,33 @@
+Test Environment
+test env is just a copy of the production app deployed on a separate server.
+test env will use demo database
+for the test environment we will prepopulate merchant accounts in the database and share the credentials
+
+merchants or users of the service will be given live endpoint and test endpoint.
+test endpoint comes to the demo deployment.
+
+Now for the merchant portal it will be production. there is no demo portal.
+but when a merchant logs in to the portal he will see both sets of credentials. ie for live and demo
+
+Now since when the merchant logs in to the portal he sees both set of credentials(demo and live)
+for the demo credentials, we will build an api that will call the demo service to get random credentials
+ie we will call get merchant on demo to get merchant info. the accounts on demo will be activated fully.
+the demo credentials is the one the merchant can use to call the api to test on the test environment
+
+how to get constant demo merchant credentials
+now since when we call the demo service to get the credentials it picks any arbitraly merchant info for us we have a challenge here since 
+it is important that the merchant gets the same credentials any time he logs in.
+So the workaround is to call the demo get merchant credentials api with the live merchant code. if the merchant code is not set we pick any merchant credentials and update 
+the table(new table to be created) with the merchant info and map it to the record id. next request we check the record id map to the merchant in the table. if record exist
+we use the id to pick the merchant record. if not we pick any random credentials and save in the mapping table
+
+
+flow
+----
+1. select from sandbox mcode where live mcode = ?
+2. if 
+	yes use mcode to get merchant record
+	no - select any random merchant
+		 save livemcode and sandbox mcode to map table
+3. return results		 
+		 

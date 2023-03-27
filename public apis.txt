@@ -1,0 +1,95 @@
+momo credit - public
+{
+		"amount" : ,  //R
+		"elevy" " ,  //R Elevy tax amount. if transaction is subject to elevy pass the amount here else pass 0. separate service available to calculate elevy. see doc
+	    "creditAccount" : "", //R  wallet number to credit. format can be either internaltional ISO format 233244777999 or local format 0244777999
+		"creditBankCode" : "", //R - EMI bank code. see list of bank codes
+		"description" : "",  //R - merchant transaction narration
+		"merchantReference" : "",  //R - merchant transaction reference 
+		"customerNarration" : "",  //O but strongly recommended - we advise you take the reason for transfer from the sender. narration entered by customer eg transfer to uncle, 
+		"channel" : "",  //R - medium transaction is being done eg mobileapp,ussd,web,pos,atm. see doc for list of the channel codes
+		"senderName" : "", //O - but strongly recommended
+		"senderMsisdn" : "", //R 
+		"senderLocation" : "", //O
+		"receiverName" : "", //O  - but strongly recommended this is always available from the account verification API 
+		"receiverMsisdn" : "", //O
+		"receiverLocation" : ""		//O		
+}
+
+momo debit - public
+{
+		"amount" : ,  //R
+		"elevy" " ,  //R Elevy tax amount. if transaction is subject to elevy pass the amount here else pass 0. separate service available to calculate elevy. see doc
+		"debitAccount" : "",  // R - wallet number to debit. format can be either internaltional ISO format 233244777999 or local format 0244777999
+		"debitBankCode" : "",  //R - EMI bank code. see list of bank codes
+		"description" : "",  //R - merchant narration
+		"merchantReference" : "",  //R - merchant transaction reference 
+		"customerNarration" : "",  //O but strongly recommended - we advise you take reason for transfer from the sender. narration entered by customer eg transfer to uncle, 
+		"channel" : "",  //R - medium transaction is being done eg mobile,ussd, web, pos, atm code will be used
+		"senderName" : "", //O - but strongly recommended. name of customer been debited
+		"senderMsisdn" : "", //R - msisdn of number been debited
+		"senderLocation" : "", //O  - location of customer been debited		
+}
+
+credit bank account - public 
+{
+		"amount" : ,  //R
+		"elevy" " ,  //R Elevy tax amount. if transaction is subject to elevy pass the amount here else pass 0. separate service available to calculate elevy. see doc
+	    "creditAccount" : "", //R  bank account number to credit. 
+		"creditBankCode" : "", //R - FI bank code. see list of bank codes
+		"description" : "",  //R - merchant transaction narration
+		"merchantReference" : "",  //R - merchant transaction reference 
+		"customerNarration" : "",  //O but strongly recommended - we advise you take the reason for transfer from the sender. narration entered by customer eg transfer to uncle, 
+		"channel" : "",  //R - medium transaction is being done eg mobile,ussd, web, pos, atm code will be used
+		"senderName" : "", //O - but strongly recommended
+		"senderMsisdn" : "", //R 
+		"senderLocation" : "", //O
+		"receiverName" : "", //O  - but strongle recommended this is always available from the account verification API 
+		"receiverMsisdn" : "", //O
+		"receiverLocation" : ""		//O		
+}
+
+
+todo
+momo verification
+bill verification
+airtime
+bill payment
+bundle verification
+bundle payment
+
+
+//{"reference": "ussdx-EO-0854700-E54A-245","amount": 0.0,"alias": "NLA","action": "query","account": "20500178","mobile":"233593858237","merchant": "NLA","name": "EXTERNAL","type": "0","type2": "null","mac": "","mode": "1","bank": "null","client": "JUSTTOPUP","otherinfo": "null"}
+
+vas-request- 
+{"apiId":"","apiSecret":"EAE87AA45B443279747E158C6FA5FD2C9DDD49B8BCB2726FEE89F76D679B88BD5599E3E59643EA233454C66","reference":"2957664660","amount":0.0,"product":"DSTV","action":"query","account":"8213254084","mobile":"8213254084","merchant":"dstv","type":"0","type2":"0","mode":"1","alias":"DSTV"}
+{"reference":"02AQ73822338977","amount":10.0,"alias":"MTN","action":"process","account":"233547587743","mobile":"233547587743","merchant":"VTU","name":"EXTERNAL","bank":"000","type":"0","type2":"0","mac":"432f0bc169804d1530b084b9b838ea04","mode":"1","ip":"172.16.10.38","client":"JUSTTOPUP","otherinfo":"233547587743","date":"Mar 20, 2023 8:27:12 PM"}
+
+vas-response- {"alias":"GIP","reference":"gipverify999","amount":0.0,"action":"query","type":"0","mode":"1","mac":"","account":"0542468699~686","error":"00","fault":"GEORGE WILLIAMS ASARE","client":"JUSTTOPUP","ip":"172.16.10.38","bank":"null","otherinfo":"GEORGE WILLIAMS ASARE","date":"Mar 20, 2023 8:27:12 PM"}
+
+{"alias":"DSTV","reference":"2957664660","amount":0.0,"action":"query","type":"0","mode":"1","account":"8213254084","error":"00","fault":" MINT LOUNGE#0.0#2023/03/20^DSTV:-0.42_DStvComm~","ip":"172.16.10.38","date":"Mar 20, 2023 8:27:11 PM"}
+
+ {"reference": "02TI14824430892","amount": 10.0,"alias": "MTN","action": "process","account": "233241142940","mobile":"233241142940","merchant": "VTU","name": "EXTERNAL","type": "0","type2": "0","mac": "9f66029417965fd48279352d0f39abb7","mode": "1","bank": "000","client": "JUSTTOPUP","otherinfo": "233241142940"}
+
+auxilliary apis
+----
+get banks
+get billers
+
+
+header - api secret
+{
+mobile
+account
+alias
+reference
+amount
+action
+mac
+id
+bankCode
+channel
+merchantCode
+isBundle
+}
+

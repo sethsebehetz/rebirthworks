@@ -1,0 +1,261 @@
+Proposed Transactions Table
+-----
+
+Components of the transaction data
+---------------
+1. Merchant data
+2. Transaction data
+2. Sender data
+4. Receiver data
+5. Processor data
+6. Switch data
+7. Security data
+8. Time data
+9. Metrics data
+10. Settlement data
+
+	
+1.	Merchant data
+	1. merchantCode
+	2. accountId
+	3. bankCode
+	
+	
+
+2. Transaction data
+	1. serviceCode
+	2. amount
+	3. debitAccount
+	4. creditAccount
+	5. description  (format can be agreed)
+	6. debitBankCode
+	7. creditBankCode
+	8  fee
+    9. otherFee
+	10. merchantReference
+	11. reference
+	12. customerReference (reference entered by customer)
+	13. product  (eg MTN airtime, Vodacash Momo debit, DSTV BILL). ie descriptive narrative of the main item been been transacted - not for public
+	14. cardNumber
+	
+	
+3. Sender data
+	1. senderName
+	2. senderPhoneNumber
+	3. Location (useful for remmittance, location can be country)
+	
+
+4. Receiver data
+	1. receiverName
+	2. receiverPhoneNumber
+	3. location
+	
+	
+5. Processor data
+	1. processer (eg MTN, DSTV, GCB)
+	2. processorReference
+	3. processorError
+	4. processorMessage
+	
+
+6. Switch data
+	1. switchError
+	2. switchReference  (shd be sequential
+	3. switchNarration 
+	4. switchFlag   (help to indicate status such as reversed, etc)
+	
+	
+7. SecurityData
+	1. mac
+
+
+8. Metrics data
+	1. processingTime(TAT)
+	2. dbInsertTAT
+	3. dbUpdateTAT
+	
+
+9. Time data
+	1. requestTime
+	2. responseTime
+	
+
+10. Settlement data
+	Not yet available
+
+
+----------------------------------
+----------------------------------
+Transaction Response Data
+{
+
+}
+----------------------------------
+----------------------------------
+
+LytSwitch APIs
+-
+Categories of APIs
+	1. Transactional - fundstransfer transactions  eg (debit,credit etc (worth storing in database
+	2. Non-Transactional - eg balance, ministatement, accountLookUp etc
+
+
+
+Transactional APIs
+1. /debit  - called to debit account only
+2. /credit - called to credit account only
+3. /		- called to debit and to credit all in one transaction
+4. /status  - status check (note independent status check service (running as scheduler) will also be built different from this.)
+5. /reverse  - txn reversal
+
+LytSwitch transaction request api
+
+-- headers
+	 apiKey:**********
+	
+-- body (json)
+   {
+    "merchant" : {
+		"merchantCode" : "",
+		"accountId" : "",
+		"bankCode" : ""		
+	},
+	"transaction" : {          // this same request(plus switch params like switch reference etc) will be forwarded to the processor bridges since it contains all needed params    v1/lytswitch/cbs
+		"merchantCode" : "",
+		"merchantAccountId" : "",
+		"merchantBankCode" : "",		
+		"serviceCode" : "",
+		"amount" : ,
+		"fee" : ,
+	    "otherFee" : ,
+	    "feeParam1" : ,  //reserved for future use
+	    "feeParam2" : ,	 //reserved for future use
+		"cardNumber" : "",
+	    "debitAccount" : "",
+		"debitBankCode" : "",
+		"debitBankGIPCode" : "",
+	    "creditAccount" : "",
+		"creditBankCode" : "",
+		"creditBankGIPCode" : "",
+	    "description" : "",
+		"customRequest" : "",	    
+		"merchantReference" : "",
+		"customerReference" : "",
+		"product" : "",	   
+		"channel" : "",
+		"pin" : "",
+		"transCode" : "",
+		"senderName" : "",
+		"senderMsisdn" : "",
+		"senderLocation" : "",
+		"receiverName" : "",
+		"receiverMsisdn" : "",
+		"receiverLocation" : ""		
+	},
+	"card": {    //for cms operations. these calls will be sent to the cms microservice  /v1/lytswitch/cms
+		"merchantCode" : "", 
+		"accountId" : "",
+		"bankCode" : "",		
+		"accountNumber" : "",
+		"cardNumber" : "",
+		"accountName" : "",		
+		"msisdn" : "",
+		"pin" : "",
+		"newPin" : "",
+		"reference" : "",
+		"controlId" : "",
+		"schemeCode" : "",
+		"customRequest" : "",
+		"transCode" : ""
+	},
+	"custom":{   //not needed anymore since both lytswitch and cms will have custom string   v1/lytswitch/custom
+		"action" : "",
+		"customString" : ""
+	}	
+  }	
+  
+  LS Security
+   A Table will be needed for credentials management
+  
+  Transcodes
+  ----
+  Fund Transfer (FT)
+  Balance Inquiry
+  Mini Statement
+  Full Statement
+  Reversal
+  Status Query
+  Payment
+  Airtime
+  Bill Payment 
+  Credit
+  Debit
+  Bank To Wallet
+  Wallet To Bank
+  Bill Payment
+  Top up
+  Account to Account
+  InterBank Transfer
+  Remittance
+  Withdrawal
+  Purchase
+  
+  Account Lookup account number
+  Account Lookup phoneNumber
+  Create account 
+  Add Account with PIN
+  Add Account
+  Change Pin
+  Custom //used for apis like AL, APL etc. the apis are extra apis defined by the programmes based on their agreed contract
+
+
+LS Flow
+------
+1. LS receives request
+2  generates mac, generate switch reference
+3. inserts records (if it applies)
+4. routes request - request data to route and format, security
+5. save response (00 for success, 31 for pending, 06 for failed)
+
+cms
+---
+cms service for card creation, pin change, add account etc
+cms also used to authenticate/authorize pin during transactions
+cms also used to check customer profile during transactions. checks of daily, commulative, spending limits, account lock status, etc 
+
+CMS Security
+--
+the card acccount needs to be encrypted cos if it is plain it can be changed. malicious user can change so that a particular account is debited
+
+where will cms be located
+----
+cms will be co-hosted on the same server as LS. CMS will connect remotely to the ecardholder tables at the bank. Oga has suggested we host the ecardholder dbase at the bank for security reasons
+
+cms hosting options
+---
+cohosting with ls and connecting to localdatabase
+cohosting with ls and connecting to remote database
+hosting remotely and connecting to the remote database
+
+for best performance we have to cohost and also host the database locally
+
+if hosting remotely and connecting to the remote database how do we optimise for performance
+
+
+
+LytSwitch and cms
+
+
+LS Security
+LS Documentation
+PIN encryption, transport
+
+How to handle two leg transactions (the tables needed). . LS transaction tables. LS W2B Processing
+W2B notifications
+LS request to banks clients, mobile money
+LS Client sdk development
+----
+
+
+LS Future upgrades
+Process ISO messaging

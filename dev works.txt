@@ -1,0 +1,32 @@
+TO DO
+---
+rate limiting
+Detect login from different device and send a mail /user agent can be used to achieve this  - will assign it to NSS
+implement rate limiting - ways to reduce bots,spam
+controlled live testing logic
+google reCapture into flow
+cloudflare
+centralised logging
+external config
+investigate quarkus async logging
+
+
+
+next
+centralised config
+centralised logging
+
+
+password history check
+---
+1. new password shd not be same as last 4 password used.
+
+1. this means we need to store all user password in a history table
+2. so we can check
+
+1. when creating user we store the password
+2. when changing password too we store the password - if change password is successful we store the password and salt
+
+
+
+ADD BULK PAYMENT - FOR CORPORATE PAY

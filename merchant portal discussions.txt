@@ -1,0 +1,17 @@
+
+
+Go Live
+
+ Before you are approved to go live ensure the following have been done
+  1. Upload you business documents - click here 
+  2. Complete the business KYC fomr - click here
+  3. Upload you company log - click here
+  4. Select the product list
+  
+ Productioni status
+ You are currently approved on test environment
+ Your production status is pending/approved/denied.  or You have not applied to go live
+ I you have completed all the required check list, click the apply button below 
+ 
+
+  10.	Development of a new platform

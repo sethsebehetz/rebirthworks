@@ -1,0 +1,80 @@
+get accesstoken
+ -H client_id   - plain client id
+ -H client_secret  - rsa(client_secret . timestamp(yyyyMMddHHmmssSSS)
+
+steps
+1. check required parameters are present
+   if any is null return error missing required parameters - HC 401
+   
+   check grant type
+
+2. use client_id to get merchant
+   if no merchant is found return error invalid api key - HC 401
+
+3. Use kid from merchant to get key records
+
+4. decrypt client secret using the merchant private keys
+   seperate client secret and timestamp
+
+5. compare client secret received to merchant client secret 
+   if its not the same return HC 401
+
+6. check timestamp if it is older than 10mins
+   note: timestamp is the GMT time of sending the request. it should not be 10mins behind current time and also not be 10mins ahead of current time
+   timestamp is used here to stop the activities of middlement or hackers who have gained access to the request in transport. 
+   in such a case the checks can reduce the extent of the damage that can be done
+   
+   -6 -5 -4 -2 2 3 4 5 6 7 8   minutes
+
+	m >= -5 and m <= 5
+
+	m < -5 || m > 5
+   
+7.    Return response
+
+{
+  "issued_at" : "1416157639014",
+  "application_name" : "e49ef95f-6d32-4062-ac9a-3beea62ca922",
+  "scope" : "",
+  "status" : "approved",
+  "api_product_list" : "[Test App product]",
+  "expires_in" : "3599",
+  "developer.email" : "testdev@example.com",
+  "organization_id" : "0",
+  "token_type" : "BearerToken",
+  "client_id" : "kWocGgKENrdWRT0jq4l0F0ACnPAQsD3",
+  "access_token" : "WNSnwquKualbgnGeAK0EXGqzO3A",
+  "organization_name" : "example",
+  "refresh_token_expires_in" : "0",
+  "refresh_count" : "0"
+}
+
+{
+  "access_token":"MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+  "token_type":"Bearer",
+  "expires_in":3600,
+  "refresh_token":"IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk",
+  "scope":"create"
+}
+
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Cache-Control: no-store
+ 
+{
+  "error": "invalid_request",
+  "error_description": "Request was missing the 'redirect_uri' parameter.",
+  "error_uri": "See the full API docs at https://authorization-server.com/docs/access_token"
+}
+
+invalid_request
+invalid_client
+invalid_grant
+
+
+path v1/oauth/accesstoken?grant_type=client_credentials
+
+request
+ bearer Token
+ get headers,
+ get merchant - account id, merchant code

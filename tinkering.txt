@@ -1,0 +1,35 @@
+api access ip whitelisting
+---
+merchant can set ip addresses to whitelisting
+if no ip address is set then merchant has allowed all ips to access
+
+also merchant can set ip block to allow
+
+table
+merchant code, ip, created
+
+
+note: ip addresses shd be loaded on start up and updated in real time for all the crud operations like it is done for the service endpoint
+
+
+web service
+
+
+  
+  
+  
+21022023
+--
+1. relook at architecture. merchant api and admin apis all captured under api gateway. I have to look at this again
+2. the jwe token has timestamp component to check the expiry. why do we also have timestamp component in the secretewithtimestamp
+
+
+
+How to switch to gip (eg switch terra to gip, nib to gip when ova run out)
+--
+this setting will be made in LS configuration
+merchant code and credit bank code can be used to do the switch just like in the momo xchange config. same logic will be used
+
+
+
+

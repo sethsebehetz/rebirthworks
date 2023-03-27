@@ -1,0 +1,72 @@
+changes log
+---
+27022023
+1. added bank code to merchant model
+2. endpoint for get merchant logo
+3. updated uploads ddl - indexed mcode, description
+4. check for duplicate description during file upload
+
+28022023
+1. added mime type to s3 file upload
+2. endpoint for delete upload
+3. created ip_address table
+4. endpoint add merchant ip address
+5. endpoint get merchant ip addresses
+6. endpoint delete merchant ip addresses
+
+02032022
+1. check if ip is whitelisted for api calls
+2. endpoint get merchant product : added name,description to the response
+3. get access token = populated product list
+
+03.02.2023
+1. health checks endpoint a. liveness 2. readiness   endpoint /q/health
+
+04.03.2023
+1. replace all product to services. so endpoint with path product now /service
+
+05.03.2023
+1. added csrf endpoint /csrf
+2. checks for the presence of csrf token header in webapps api  /merchant/ and /admin 
+3. added csrf filter. 
+
+
+06.03.2023
+1. separated audit logs(audit.log) from application logs(trace.log)
+2. audit trail - updated to store email as caller for admin request since caller id not present in the claimset
+3. implemented password history check during change password. new table password_history was created.
+
+07.03.2023
+4. added x-etz-request-id to both request and response
+
+08.03.2023
+---------
+1. added x-etz-request-id to both request and response - completed
+2. endpoint for admin to resetpasswordmerchant
+
+09.03.2023
+---
+1. endpoint for admin to reset user password  v1/admin/merchant/resetpassword/{id}
+
+10.03.2023
+----
+1. endpoint to reset merchant api credentials  merchant/resetapicredentials/{id}
+
+11.03.2023
+--
+1. external config microservice 
+
+12.03.2023
+--
+1. client for external configuration
+
+13-18 03.2023
+---
+1. Audit trail performance improvements
+
+18-21 03.2023
+flow diagram designs
+
+25.03.2023
+---
+LS development analysis

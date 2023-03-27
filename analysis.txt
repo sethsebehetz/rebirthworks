@@ -1,0 +1,24 @@
+Hello team.
+pls we would continue our analysis of this project tomorrow.
+
+Topics for disucssion below
+  1. review of merchant onboarding/profiling
+     A. initial data - Initial data collected allows for registration or access to the dev portal. Can test all services available on the portal.					   
+					   Initial data account of merchant is the default admin 
+					   intial data set to collect - final review
+	 
+	 B. Full data	- Merchant ready to move to production. All required information should be provided by merchant
+	 
+	 C. production approval status; Risk team review merchant Full data. Risk action to approve or deny merchant. here merchant has completed dev't/testing and wants to move to production
+		
+		
+  2. Merchant Account data in the system. ie Full properties of merchant in the system 
+		Full properties of merchant to create in the system. That is properties that are created when merchant completes profiling or create account.
+		Eg. account id, status(active or inactive), production_enabled, merchantid/code, settlement id etc etc. 
+		
+  3. Devportal Account creation security.
+	    merchants creating accounts on the platform. How to secure the accounts, crypto algos to use, credentials mgt, etc
+		
+  4. API security
+  
+  5. UI Mock development analysis

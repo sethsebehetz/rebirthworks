@@ -1,0 +1,45 @@
+ource:88] (executor-thread-0) ---------------
+2022-12-31 00:05:29,756 INFO [com.etz.gh.rebirth.resources.DefaultResource:89] (executor-thread-0) -- UriInfo --
+2022-12-31 00:05:29,758 INFO [com.etz.gh.rebirth.resources.DefaultResource:94] (executor-thread-0) absolutePath: http://localhost:8090/v1/try/cardmaster/90
+2022-12-31 00:05:29,760 INFO [com.etz.gh.rebirth.resources.DefaultResource:95] (executor-thread-0) baseUri: http://localhost:8090/v1/
+2022-12-31 00:05:29,762 INFO [com.etz.gh.rebirth.resources.DefaultResource:96] (executor-thread-0) matchedResource: [com.etz.gh.rebirth.resources.DefaultResource_Subclass@1f598f9b]
+2022-12-31 00:05:29,764 INFO [com.etz.gh.rebirth.resources.DefaultResource:97] (executor-thread-0) matchedUri: [try/cardmaster/90]
+2022-12-31 00:05:29,767 INFO [com.etz.gh.rebirth.resources.DefaultResource:98] (executor-thread-0) path: /try/cardmaster/90
+2022-12-31 00:05:29,769 INFO [com.etz.gh.rebirth.resources.DefaultResource:99] (executor-thread-0) pathParameters: {path=[try/cardmaster/90]}
+2022-12-31 00:05:29,771 INFO [com.etz.gh.rebirth.resources.DefaultResource:100] (executor-thread-0) pathSegments: [try, cardmaster, 90]
+2022-12-31 00:05:29,774 INFO [com.etz.gh.rebirth.resources.DefaultResource:101] (executor-thread-0) queryParameters: {r=[seth]}
+2022-12-31 00:05:29,775 INFO [com.etz.gh.rebirth.resources.DefaultResource:102] (executor-thread-0) requestUri: http://localhost:8090/v1/try/cardmaster/90?r=seth
+2022-12-31 00:05:29,777 INFO [com.etz.gh.rebirth.resources.DefaultResource:103] (executor-thread-0) relativize test: ../../../test
+2022-12-31 00:05:29,779 INFO [com.etz.gh.rebirth.resources.DefaultResource:104] (executor-thread-0) resolve test: http://localhost:8090/v1/test
+2022-12-31 00:05:29,781 INFO [com.etz.gh.rebirth.resources.DefaultResource:49] (executor-thread-0) ---------------
+2022-12-31 00:05:29,783 INFO [com.etz.gh.rebirth.resources.DefaultResource:50] (executor-thread-0) -- httpServletRequestInfo --
+2022-12-31 00:05:29,784 INFO [com.etz.gh.rebirth.resources.DefaultResource:51] (executor-thread-0) getServerInfo Undertow - 4.1.9
+2022-12-31 00:05:29,786 INFO [com.etz.gh.rebirth.resources.DefaultResource:52] (executor-thread-0) getMethod POST
+2022-12-31 00:05:29,788 INFO [com.etz.gh.rebirth.resources.DefaultResource:53] (executor-thread-0) getRequestURI /v1/try/cardmaster/90
+2022-12-31 00:05:29,790 INFO [com.etz.gh.rebirth.resources.DefaultResource:54] (executor-thread-0) getRequestRUL http://localhost:8090/v1/try/cardmaster/90
+2022-12-31 00:05:29,792 INFO [com.etz.gh.rebirth.resources.DefaultResource:55] (executor-thread-0) getServerPort 8090
+2022-12-31 00:05:29,794 INFO [com.etz.gh.rebirth.resources.DefaultResource:56] (executor-thread-0) getLocalAddr 127.0.0.1
+2022-12-31 00:05:29,796 INFO [com.etz.gh.rebirth.resources.DefaultResource:57] (executor-thread-0) getServletPath /v1
+2022-12-31 00:05:29,803 INFO [com.etz.gh.rebirth.resources.DefaultResource:58] (executor-thread-0) getPathTranslated D:\Works\NetBeansProjects\apigateway\src\main\resources\META-INF\resources\try\cardmaster\90
+2022-12-31 00:05:29,805 INFO [com.etz.gh.rebirth.resources.DefaultResource:59] (executor-thread-0) getQueryString r=seth
+2022-12-31 00:05:29,808 INFO [com.etz.gh.rebirth.resources.DefaultResource:60] (executor-thread-0) getContextPath 
+2022-12-31 00:05:29,809 INFO [com.etz.gh.rebirth.resources.DefaultResource:61] (executor-thread-0) getPathInfo /try/cardmaster/90
+2022-12-31 00:05:29,811 INFO [com.etz.gh.rebirth.resources.DefaultResource:62] (executor-thread-0) getRemoteAddr 127.0.0.1
+2022-12-31 00:05:29,814 INFO [com.etz.gh.rebirth.resources.DefaultResource:63] (executor-thread-0) getRemoteAddr 127.0.0.1
+2022-12-31 00:05:29,816 INFO [com.etz.gh.rebirth.resources.DefaultResource:64] (executor-thread-0) getRemotePort 56165
+2022-12-31 00:05:29,818 INFO [com.etz.gh.rebirth.resources.DefaultResource:65] (executor-thread-0) getRemoteHost 127.0.0.1
+2022-12-31 00:05:29,820 INFO [com.etz.gh.rebirth.resources.DefaultResource:66] (executor-thread-0) getServerName localhost
+2022-12-31 00:05:29,822 INFO [com.etz.gh.rebirth.resources.DefaultResource:67] (executor-thread-0) getHeaderNames io.undertow.servlet.util.IteratorEnumeration@4fb56eb
+2022-12-31 00:05:29,824 INFO [com.etz.gh.rebirth.resources.DefaultResource:68] (executor-thread-0) getRemoteUser null
+2022-12-31 00:05:29,826 INFO [com.etz.gh.rebirth.resources.DefaultResource:69] (executor-thread-0) contentLength 29
+2022-12-31 00:05:29,828 INFO [com.etz.gh.rebirth.resources.DefaultResource:70] (executor-thread-0) getHeaderNames io.undertow.servlet.util.IteratorEnumeration@3c4cbe9b
+2022-12-31 00:05:29,831 INFO [com.etz.gh.rebirth.resources.DefaultResource:71] (executor-thread-0) getHttpServletMapping io.undertow.servlet.spec.MappingImpl@1d2b100d
+2022-12-31 00:05:29,834 INFO [com.etz.gh.rebirth.resources.DefaultResource:72] (executor-thread-0) getLocalAddr 127.0.0.1
+2022-12-31 00:05:29,836 INFO [com.etz.gh.rebirth.resources.DefaultResource:73] (executor-thread-0) getProtocol HTTP/1.1
+2022-12-31 00:05:29,838 INFO [com.etz.gh.rebirth.resources.DefaultResource:75] (executor-thread-0) requestBody 
+2022-12-31 00:05:29,840 INFO [com.etz.gh.rebirth.resources.DefaultResource:79] (executor-thread-0) getUserPrincipal null
+2022-12-31 00:05:29,842 INFO [com.etz.gh.rebirth.resources.DefaultResource:80] (executor-thread-0) getCookies [Ljavax.servlet.http.Cookie;@6c8ecbe0
+2022-12-31 00:05:29,845 INFO [io.quarkus.http.access-log:44] (executor-thread-0) 127.0.0.1 - - 31/Dec/2022:00:05:29 +0000 "POST /v1/try/cardmaster/90?r=seth HTTP/1.1" 200 44
+
+
+RESPONSE HEADERS >> HttpResponseProxy{HTTP/1.1 200 OK [Connection: keep-alive, Access-Control-Allow-Origin: *, X-DESCRIPTION: SUCCESSFUL, Content-Type: application/json, Content-Length: 228, Date: Tue, 03 Jan 2023 18:08:01 GMT] ResponseEntityProxy{[Content-Type: application/json,Content-Length: 228,Chunked: false]}}

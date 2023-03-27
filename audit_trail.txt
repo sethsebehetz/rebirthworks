@@ -1,0 +1,64 @@
+research
+java audit trail
+jax rs audit trail
+api gateway audit trail
+cdi audit trail
+audit log
+
+
+1. what to log
+2. where to log
+3. technology to log
+
+what to log
+request time
+host 
+request path
+query string
+request method
+request ip
+user/caller info
+request body
+user agent
+request headers
+
+response headers
+response payload
+response code
+response time
+
+
+
+where to log
+log file
+database
+s3
+
+
+technology
+jax rs filters
+asynchronous logging
+json store
+
+
+{
+    "events": [
+        {
+            "occurred_at": "2021-08-09T09:47:04.664Z",
+            "response_code": 200.0,
+            "resource": "login",
+            "event_source": "UI",
+            "client_ip": "80.131.123.137",
+            "request_method": "POST",
+            "request_payload": "{\"username\":[\"johnsmith\"],\"loginType\":[\"onlineLogin\"]}",
+            "resource_fragment": "/servlet/login",
+            "request_uri": "/servlet/login",
+            "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
+            "response_payload": "SUCCESS",
+            "username": "johnsmith"
+        }
+    ],
+    "from": 0,
+    "size": 100,
+    "totalItemsCount": 1
+}

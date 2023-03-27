@@ -1,0 +1,73 @@
+Service discovery
+===
+all microservices will have to register their endpoint for the service discovery service
+api calls go through the api gateway, they are authenticated then passed to the service registered for the path
+if no service is registered for the path it returns 404
+client id, merchant code, account id, are added to the header and forwarded to the registered service
+
+
+
+registration of service
+  path name, address to forward to(service endpoint, description of service, isAuthenticated, request method, status
+  
+  
+tech permission needed to register service
+  
+  
+api 
+--
+ register service
+ update service
+ delete service
+ block service
+ load from cache
+ update cache on dml queries
+ 
+CREATE TABLE `service_registry` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(165) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `path` varchar(255) DEFAULT NULL,
+  `service_endpoint` varchar(255) DEFAULT NULL,
+  `request_method` varchar(25) DEFAULT NULL,
+  `status` char(1) DEFAULT NULL,
+  `secured` char(1) DEFAULT NULL,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `path_UNIQUE` (`path`),
+  KEY `idx_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 
+
+
+service discovery proxy
+
+set new headers(merchant info, accountid etc)
+check secured to help check auth or not
+resolve url to post to
+retrieve all headers to forward
+check status is 1
+
+use request method to invoke api
+
+if path is not found we return 404
+
+
+Url routing algorithm
+ loop through the service register
+   for each register check if path is contained in the url
+      yes = return service
+	    if yes but method is different we return 405 method not allowed
+	  false = return null
+	  if null returned we return 404 http code response
+	  
+	  
+required data
+
+path   = httpservletrequest
+request method  = httpservletrequest
+request headers =  httpservletrequest
+request body = method
+
+service register	  
+	  

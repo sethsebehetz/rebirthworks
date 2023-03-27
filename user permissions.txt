@@ -1,0 +1,3 @@
+permission to manage users and roles
+permission to reset password
+permission to block users

@@ -1,0 +1,5 @@
+https://itnext.io/how-to-implement-a-jax-rs-authentication-filter-3eee64b34b99
+http://www.mastertheboss.com/java/how-to-spot-java-bugs-with-spotbugs/
+https://www.digitalocean.com/community/tutorials/java-annotations
+https://www.digitalocean.com/community/tutorials/java-reflection-example-tutorial
+https://dennis-xlc.gitbooks.io/restful-java-with-jax-rs-2-0-2rd-edition/content/en/part1/chapter5/query_param.html

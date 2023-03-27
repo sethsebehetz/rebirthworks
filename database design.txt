@@ -1,0 +1,49 @@
+merchant table
+CREATE TABLE `mobgate_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(65) DEFAULT NULL,
+  `mobile_no` varchar(15) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `email_verification_token` varchar(255) DEFAULT NULL,
+  `email_verified` tinyint(4) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `password_missed` tinyint(4) DEFAULT 0,
+  `password_change_required` tinyint(4) DEFAULT NULL,
+  `salt` varchar(255) DEFAULT NULL,
+  `bank_code` varchar(6) NOT NULL,
+  `device_id` varchar(255) DEFAULT NULL,
+  `pin` varchar(255) DEFAULT NULL,
+  `pin_missed` tinyint(1) DEFAULT 0,
+  `otp_missed` tinyint(4) DEFAULT 0,
+  `status` tinyint(2) DEFAULT NULL,
+  `jti` varchar(55) DEFAULT NULL,
+  `account_verified` tinyint(1) DEFAULT NULL,
+  `sec_question_1` varchar(255) DEFAULT NULL,
+  `sec_answer_1` varchar(255) DEFAULT NULL,
+  `sec_question_2` varchar(255) DEFAULT NULL,
+  `sec_answer_2` varchar(255) DEFAULT NULL,
+  `sec_question_3` varchar(255) DEFAULT NULL,
+  `sec_answer_3` varchar(255) DEFAULT NULL,
+  `last_activity_time` datetime DEFAULT NULL,
+  `last_login_time` datetime DEFAULT NULL,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `modified` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  
+  
+  
+  id,merchant_id,merchant_code,email,email_verification_token,status,password,password_missed,password_change_required,salt,email_verified,last_activity_time`,last_login_time`,created`,modified`,
+  email_verified`,first_name,last_name, business_name,approval_status,settlement_account_id,funding_acct_id
+  merchant_type, business_category, tin, 
+  
+  
+  settlement_acct_id - merchant selected/active settlement account. id used to pick account from settlement account table prefix id with SETL_ACC_ID
+  funding_acct_id - merchant selected/active funding account. id used to pick account from funding account table prefix id with FUND_ACC_ID
+  
+  contact_data_id = id that links to contact persons of business in contacts_persons_table
+  merchant_type - company,sole proprietor,individual,partnership - This will be collected under business data table
+  category_of_business = sector of busines eg health, IT,   - This will be collected under business data table
+  business_name - This will be collected under business data table
+  tin will be collected under business data table
+  
+  risk_approval_status - 
+  txn_volume - will be collected under business data table

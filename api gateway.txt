@@ -1,0 +1,34 @@
+An API gateway is a software pattern that sits in front of an application programming interface (API) or group of microservices, to facilitate requests and delivery of data and services. Its primary role is to act as a single entry point and standardized process for interactions between an organization's apps, data and services and internal and external customers. The API gateway can also perform various other functions to support and manage API usage, from authentication to rate limiting to analytics.
+
+An API gateway is an API management tool that sits between a client and a collection of backend services.
+An API gateway acts as a reverse proxy to accept all application programming interface (API) calls, aggregate the various services required to fulfill them, and return the appropriate result.
+
+Function:
+protocol translation
+service discovery
+basic business logic
+authentication and security policy enforcements
+stabilization and load balancing
+cache management
+monitoring, logging, statistics and analytics - Monitor performance metrics and information on API calls, data latency, and error rates from the API Gateway dashboard, which allows you to visually monitor calls to your services
+rate limiting: if not are open to DoS and brute-force attacks. Throttle traffic and authorize API calls to ensure that backend operations withstand traffic spikes and backend systems are not unnecessarily called.
+
+
+Consider your various concerns when you host large-scale APIs.
+You want to protect your APIs from overuse and abuse, so you use an authentication service and rate limiting. 
+You want to understand how people use your APIs, so you’ve added analytics and monitoring tools.
+If you have monetized APIs, you’ll want to connect to a billing system.
+You may have adopted a microservices architecture, in which case a single request could require calls to dozens of distinct applications.
+Over time you’ll add some new API services and retire others, but your clients will still want to find all your services in the same place.
+
+
+An API gateway is a way to decouple the client interface from your backend implementation. When a client makes a request, the API gateway breaks it into multiple requests, routes them to the right places, produces a response, and keeps track of everything.
+
+https://www.techtarget.com/searchapparchitecture/tip/10-API-security-guidelines-and-best-practices
+https://www.techtarget.com/searchcloudcomputing/tip/5-bad-practices-that-lead-to-insecure-APIs-in-cloud-computing
+https://www.redhat.com/en/topics/api/what-does-an-api-gateway-do
+
+
+
+service 
+sms

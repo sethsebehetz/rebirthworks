@@ -1,0 +1,16 @@
+Error messaging/Mapping
+lytswitch api for clients
+lytswitch security between banks
+lytswitch security between microservices
+sensitive data encryption
+
+
+
+
+
+new microservices
+ notification
+ merchant sub merchant settlement
+ status checker
+ 
+ 

@@ -1,0 +1,45 @@
+ Dear Management,
+
+ INTRODUCTION.
+ This mail is to present to management and also to seek authorization on a new project the technology team has hatched and want to start implementing ASAP.
+ For some time now we have been doing a comprehensive analysis of our current platform and architecture in our team meetings.
+ We have considered its strength and weakeness and also its scalability and robustness with the future in mind.
+ 
+ Our team discussions have centered on our challenges also as developers working on the current systems, analyzing the Fintech industry both local and international and identifying shortfalls and bottlenecks within the ETranzact Ghana space.
+ In as much as the current platform and architecture has served this organization well over the last 15 years or so, the painful truth is that we have also lost an enormous amount of space in the industry due to same to which our competitors have tapped into and exploited to their advantage. 
+
+ THE PAIN OF OUR DEVELOPERS
+ The current way of going about business is killing the potentials of the inhouse developers and our ability to innovate and also our competive instinct.  
+ Over 70% of workloads of our develpors should not be done by them, however, because of the unavailability of a single platform and accompanying solutions and interfaces the role of our inhouse developers have been diverted. 
+ Their workloads even further increases per every new merchant we onboard on the platform. This is not good as it denies the company the opportunity to leverage their technology team to develop compelling solutions for todays market and yet alone even have time to do market research and to further enhance their knowledge to pick new technologies. Being here for almost 5 yrs, I sure know of what I am saying and I bear with their complaints.
+
+ 
+CURRENT PLATFORM IN USE
+The current platform is very complex and tedious to set up, complex transaction processing architecture, complex process of onboarding a bank on the platform, has many points of failures in its architecture chain, lack documentation, complex settlement process, closed implementation, not easily extensible, limited solutions for health monitoring, no comprehensive metrics can be gathered, no fault tolerance inbuilt etc. The security of the platform and its cryptographic algorithms its uses needs to be reviewed having been in place for so many years.
+As a fintech company these very issues listed here should rather be our selling points and not contribute to any of our challenges. 
+ 
+
+
+THE MARKET 
+ The market has become extremely competive with new Fintechs and Software Development companies springing up daily with solutions that rivals what we offer. International Fintech companies have also recently established their presence strongly in Ghana. The continued expansion role of Ghipps in this space also poses a constant threat. There is also the challenge of FIs and EMIs venturing into the Fintech space to provide for their own services and to their merchants and customers. Some are transitioning from their core to full technology companies. Nobody is leaving any space behind.
+ Technology is the base. What drives all these players is the Technology they have to offer. Also it is the technology and the smart solutions of these players that will set them apart. It is a rat race and the choice to innovate is not an option and neither is it a convenience but it is a necessity and should be the topmost of all priorities. It is a never ending pursuit. If you fail soon you will be out. There is no denying the fact that even recently born companies have caught up with us in terms of solutions we can offer.
+ 
+
+THE PROJECT - WHAT WE WANT TO DO
+This solution seeks to overcome all the challenges we have identified and even more.
+We want to build a completely modern and new platform for Etranzact. We want to develop an umbrella platform that will collect all our existing solutions under one API built on a new processing Engine or Switch.
+Our discussions has centered on centralizing all our services and solutions on one common platform which will run on a new Processing engine.
+The team will then build a developer portal that will expose the services online for the outside world to easily integrate and onboard our services. Developer portals consist mainly of two parts Functional documentation and Technical documentation. Developer portals are the new and standard way of working with customers and partners. It will enable us to extend our market reach and range of products, potentially increasing our client base in Ghana and beyond.
+
+The platform will house all of our existing services such as Vas, Mobile Money Transfers, GIP Services, Mobile Banking, USSD Services, QR Solution, Ticketing services, Bulk Transfer and Bulk Vas services, Merchant Pay services, POS solutions, Affiliate and Loyalty programs, AutoDebit etc.
+
+The strength of the platform is in exposing all these solutions as a single API eg USSD api can be made available and a client can easily configure their own ussd solution without any involvement of staff. On the developers portal and an accompanying app a merchant can easily onboard, manage his account, transaction statistics, settlement etc on their own.
+
+
+OUR MOTIVATION FOR THE NEW PLATFORM
+I believe in the technology team members I lead. We can champion a lot of solutions that will make us claim our lead in the Fintech industry. 
+We also believe Etz has more solutions and many more advantages than our competitors can offer. 
+Our overall goal is centered on how to develop new independent systems that can immensily enhance the overall productivity of Etranzact, provide ready made solutions for merchants and customers, increase our market reach and to reposition Etranzact as the the true leading fintech organization in Ghana and beyond. 
+
+PROJECT DURATION
+6 MONTHS

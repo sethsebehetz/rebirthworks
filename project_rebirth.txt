@@ -1,0 +1,121 @@
+ETRANZACT MULTI PROCESSING PLATFORM
+YOUR COMPLETE DIGITAL PLATFORM
+
+SERVICES TO BE BUILT
+
+VAS SERVICES
+MOBILE MONEY TRANSFER SERVICES
+GIP INTERBANK TRANSFER SERVICES
+USSD SERVICES
+QR Solution
+Ticketing Services
+BULK TRANSFER SERVICES
+BULK VAS SERVICES
+Merchant Collection Services
+Mobile App Component/version for any merchant - dashboard, sales, set up, user management
+SMS
+Loyalty
+Referral/Affiliate program
+Mobile Banking
+merchant set up
+recuring payment/scheduled payment
+POS
+Loyalty
+Referral/Affiliate program
+Autodebit
+
+crowd funding
+cardmaster api
+voting solution
+bulk sms
+solution for churches
+
+APIs/products/services
+CARDMASTER - GH LINK PREPAID CARD 
+PAYFLUID - COLLECT PAYMENT ONLINE WITH MOMO AND ALL CARDS(VISA, MASTERCARD, GH LINK CARDS ETC)
+REMITTANCE - PAY DIRECTLY TO MOMO, BANK ACCOUNT AND GH PREPAID CARDS
+EVENTS & TICKETING 
+LOYALTY
+MERCHANT PAYMENT
+USSD - Use our ussd api or USSD Builder interface to build any menu for your business
+MOMO PAYMENT - DEBIT, CREDIT
+BANK TRANSFER - Transfer to any bank account
+AUTODEBIT - Set up automatic payment 
+SCHEDULE PAYMENT
+RECURRENT PAYMENT
+AIRTIME
+BILL PAYMENT
+DATA BUNDLE
+EVOTING
+CROWD FUNDING
+SALARIES
+MOBILE BANKING
+CORPORATE SERVICES/MASS PAYMENT - SALARY PAYMENT, BULK TRANSFER, BULK AIRTIME, BILLES etc
+CHURCH PAYMENTS
+
+//
+if we dont put this services together under one api a time will come if any of the current developers leave we will struggle with continuity
+CHURCH EPAYMENTS - FOR TITHE, OFFERING, ETC
+
+
+
+
+reporting
+
+api security
+
+
+developers web portal
+
+
+Owulani
+POS
+Loyalty
+Referral/Affiliate program
+
+
+Gad 
+SMS
+
+Tom
+Self service - how small merchant interact with etz to 
+ a business can just go through and request for a certain service
+ 
+Eugene
+ ease of merchant
+ 
+ 
+ Dear Management,
+
+The technology team has been deliberating on 
+
+DEVELOPMENT OF A NEW ALTERNATE PROCESSING PLATFORM
+AND AN ACCOMPANYING DEVELOPER PORTAL .
+
+
+1. DISADVANTAGES 
+
+1. OLD AND NOT SCALABLE. Current platform runs on an architecture which is over 15 years old.
+2. COMPLEX CONFIGURATION
+3. Closed Platform. The development team 
+4. LACK OR NO DOCUMENTATION
+5. COMPLEX SETTLEMENT PROCESS 
+6. 
+
+
+
+
+OUR MOTIVATION FOR THE NEW PLATFORM
+
+
+
+
+some of the services we have thought of include the following
+
+
+
+Task assignment
+
+team ongoing projects
+
+team meeting
