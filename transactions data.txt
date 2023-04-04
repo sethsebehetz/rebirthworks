@@ -9,19 +9,19 @@ Components of the transaction data
 4. Receiver data
 5. Processor data
 6. Switch data
-7. Security data
-8. Time data
-9. Metrics data
-10. Settlement data
+7. state data
+8. Security data
+9. Time data
+10. Metrics data
+11. Settlement data
 
 	
 1.	Merchant data
 	1. merchantCode
 	2. accountId
-	3. bankCode
-	
-	
+	3. bankCode		
 
+	
 2. Transaction data
 	1. serviceCode
 	2. amount
@@ -31,7 +31,7 @@ Components of the transaction data
 	6. debitBankCode
 	7. creditBankCode
 	8  fee
-    9. otherFee
+    9. elevy
 	10. merchantReference
 	11. reference
 	12. customerReference (reference entered by customer)
@@ -41,13 +41,13 @@ Components of the transaction data
 	
 3. Sender data
 	1. senderName
-	2. senderPhoneNumber
+	2. senderMobile
 	3. Location (useful for remmittance, location can be country)
 	
-
+	
 4. Receiver data
 	1. receiverName
-	2. receiverPhoneNumber
+	2. receiverMobile
 	3. location
 	
 	
@@ -55,35 +55,59 @@ Components of the transaction data
 	1. processer (eg MTN, DSTV, GCB)
 	2. processorReference
 	3. processorError
-	4. processorMessage
+	4. processorMessage	
 	
 
 6. Switch data
 	1. switchError
 	2. switchReference  (shd be sequential
 	3. switchNarration 
-	4. switchFlag   (help to indicate status such as reversed, etc)
+	4. switchFlag   (help to indicate status such as reversed, etc) 0=processed, reversed
 	
+
+7. meta data
+	1. channel
+	2. transcode
+
+
+8. state_data
+	error_history eg 58#0,6
+	state eg status checked
 	
-7. SecurityData
+9. SecurityData
 	1. mac
 
 
-8. Metrics data
+10. Metrics data
 	1. processingTime(TAT)
 	2. dbInsertTAT
 	3. dbUpdateTAT
 	
 
-9. Time data
+11. Time data
 	1. requestTime
 	2. responseTime
 	
 
-10. Settlement data
+12. Settlement data
 	Not yet available
+		
 
 
+table ddl column names
+	id,
+	merchant_code, account_id, bank_code, 
+	service_code,  card_number, debit_account, debit_bank_code, credit_account, credit_bank_code, amount, fee, elevy, description, merchant_reference, reference, customer_reference, product,
+	sender_name, sender_mobile, sender_location
+	receiver_name, receiver_mobile, receiver_location
+	processor, processor_reference, processor_error, processor_message
+	switch_error, switch_reference, switch_narration, switch_flag
+	error_history, state
+	mac
+	tat, db_insert_tat, db_update_tat
+	request_time, response_time
+	ext1(string), ext2(string), ext3(double) reserved for future
+	
 ----------------------------------
 ----------------------------------
 Transaction Response Data
@@ -168,9 +192,12 @@ LytSwitch transaction request api
 		"customRequest" : "",
 		"transCode" : ""
 	},
-	"custom":{   //not needed anymore since both lytswitch and cms will have custom string   v1/lytswitch/custom
+	"custom":{   //not needed anymore since both lytswitch and cms will have custom string   v1/lytswitch/customapi
 		"action" : "",
-		"customString" : ""
+		"customString" : {
+			"action":"AL",
+			"data":""
+		}
 	}	
   }	
   

@@ -1,4 +1,4 @@
-changes log
+change log
 ---
 27022023
 1. added bank code to merchant model
@@ -67,6 +67,41 @@ changes log
 18-21 03.2023
 flow diagram designs
 
-25.03.2023
+25-27 03.2023
 ---
 LS development analysis
+
+27.03.2023
+--
+1. api for admin/lytswitch/generateapicredentials, admin/lytswitch/status/apicredential/1/2
+
+28.03.2023
+--
+1. del api cred admin/lytswitch/2
+2. api for get ls credentials, get ls credential
+
+30.03.2028
+--
+1. testing ls client credentials api
+2. ls microservice development
+
+31.03.2023 
+---
+1. analysing the security requirement of LS
+
+01.04.2023
+--
+1. LS Auth Filter development - ie LS API Authentication
+
+
+03.04.2023
+--
+1. LS Auth Filter development complete
+2. LS nonce data cleaner24hr completed
+3. added com.github.seancfoley - ip address library used to check ip whitelising
+
+04.04.2023
+---
+4. added ip whitelisting check for ls api credential.
+5. updated merchant api security check ip whitelising check
+6. 

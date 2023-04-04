@@ -1,0 +1,93 @@
+Security flaws(loopholes in using API-Key, API-Secret) - The case of replay attacks   
+--------------------------------------------------------------
+(A)
+X-API-Key = X-API-Key
+X-API-Secret = sha512(x-api-secret) . timestamp 
+X-Nonce    
+
+analysis
+--
+Note: sha512 given the same input will always generate the same cypher
+Man in the middle who intercepts the request can easily replay the request and just change the timestamp.
+The backend server will not be able to determine it. Also note the timestamp is not part of the Sha512 hash data.
+It can't be added since Sha is a one way hashing algorithm. The nonce does not also help since the attacker will always change it
+
+how to overcome the replay attack
+---
+(B)
+X-API-Key = X-API-Key
+X-API-Secret = sha512(x-api-secret . nonce) . timestamp 
+X-Nonce    
+
+now we are adding nonce to the sha512 calculation. 
+the x-api-secret received we call it received secret.
+when a request is received the server recalculates the x-api-secret by using the received nonce. we call this the calculated secret.
+Now when there is a replay attack (ie man in the middle get holds of the received secret and he tries to resend it, it will fail
+
+why replay attack will fail
+it will fail because the calculated secret will be different from the received secret.
+the calculated secret used the x-nonce in the header to do the new calculation. this means that the received which used the initial x-nonce request grabbed by the attacker will be different to the calculated secret.
+In the replay the attacker cannot use the same x-nonce in the original request since it will result in duplicate
+The strength of this approach lies in the nonce which prevents duplicate. if there was no nonce check, the attacker will reuse the same compromised nonce as the x-nonce in the new request and it will pass
+
+weakness of this approach
+--
+1. this approach requires the nonce to be saved persistently forever since anytime a nonce is deleted, replay attack will be successful. 
+2. with hashing algos the timestamp cant be hashed since it cannot be reversed at the server side. That means attackers can set their own timestamp. This is a limitation of using timestamp in one way irreversible hashing alogorithms
+
+
+Encryption algorithm(ea) to the rescue  
+(C)
+X-API-Key = X-API-Key
+X-API-Secret = aes(x-api-secret . nonce . timestamp ) 
+X-Nonce    note:always used the X-Nonce header to recalculate the api secret. this is important bcos the received api secret could be a replay attack
+
+This is the same as B with two changes
+  1. encryption algo is used. either of aes/rsa can be used
+  2. the timestamp is part of the generated cypher 
+
+how this solves the issue
+1. with ea we can avoid the problems of using hashing algorithm
+2. we can prevent the attacker from manipulating the timestamp by encrypting the timestamp as part of the secret. the timestamp is used to check expiry of request
+3. we can delete the nonce after the expiry. any replay attempt will fail because the timestamp in the compromised request will have expired
+4. aes and rsa can be used
+
+
+Using hybrid cryptography
+-----
+we can also combine both hashing and encryption
+(D)
+X-API-Key = X-API-Key
+X-API-Secret = sha512(x-api-secret) . aes(timestamp)
+X-Nonce    
+
+D is the same as A with the timestamp encrypted. D will fail because as long as the timestamp has not expired the attacker can execute successful replay attack. the attacker will just change the nonce and resend
+
+
+(E)
+X-API-Key = X-API-Key
+X-API-Secret = sha512(x-api-secret + nonce) . aes(timestamp)
+X-Nonce   
+
+E will fail bcos the attacker cant execute replay. the recalculated nonce(as demonstrated in B) will help to overcome 
+
+
+(F)
+Brute forcing can be used to break option C. So we will use a combination of encryption and hashing to make it much more difficult or impossible to decrypt
+X-API-Key = X-API-Key
+X-API-Secret = aes(sha512(x-api-secret . nonce) . timestamp ) 
+X-Nonce    note:always used the X-Nonce header to recalculate the api secret. this is important bcos the received api secret could be a replay attack
+
+(G)  - using G for LytSwitch
+X-API-Key = X-API-Key
+X-Auth = rsa( sha512(x-api-secret + nonce) . timestamp . aessecret . aesiv )
+X-Nonce = nonce
+
+Body = AES(request body)  - secret,iv passed as headers 
+
+json_file
+ {   
+   "api_key":"",
+   "api_secret":"",    
+   "pub_key":""
+ }
