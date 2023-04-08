@@ -1,0 +1,25 @@
+LS Handover
+
+Sammy
+  airtime apis
+  standard banks api
+  
+Nii
+  vasgate api, contract and development
+
+Gad 
+  autodebit api, contract
+  
+Vas bills 
+----
+  dstv, gotv, kwesetv, startimes
+  adsl
+  postpaid
+  ecg
+  ghwater
+  
+  bundles
+   mtn data
+   voda data
+   
+      

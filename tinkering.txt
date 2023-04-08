@@ -9,7 +9,7 @@ table
 merchant code, ip, created
 
 
-note: ip addresses shd be loaded on start up and updated in real time for all the crud operations like it is done for the service endpoint
+note: ip addresses shd be loaded on start up and updated in real time for all the crud operations like it is done for the service endpoint: no caching neeed since query is run on each request
 
 
 web service
@@ -33,3 +33,7 @@ merchant code and credit bank code can be used to do the switch just like in the
 
 
 
+
+Admin interface
+ merchant mgt
+ user mgt

@@ -4,7 +4,7 @@ route table
   bankcode, status, ip, port
 route ws (crud)  
   
-mac = hmac(amount+switchReference+clientReference+sourceAccount , secret);
+mac = hmac(amount+switchReference+reference+sourceAccount , secret);
 
 LS Security
 ----
@@ -37,7 +37,8 @@ Table to store LS credentials
 Table - id, key, secret, requester, app, status, approver, created
 
 
- 
+1,234,567,890,123,456
+
  
 Fees 
 ------
@@ -52,7 +53,7 @@ LS Flow
 4. call cms webservice(if it applies)
 5. insert record (if it applies)
 6. Add merchant data to request
-7. route request - request data to route, format and security
+7. route request - request data to route, format and security, see ecarddb.e_tmcnode;, (see efrontend ecarddb.interface table columns (active,allow_web), see ecarddb.e_tmckey for key exchange
 8. save response (00 success, 31 failed, 06 failed)
 
 LS Error Codes
@@ -91,16 +92,6 @@ LS security
 ---
 
 
----
-1. incoming request
-2. security checks - authentication
-3. generate mac, switch reference
-4. call cms webservice(if it applies)
-5. insert record (if it applies)
-6. Add merchant data to request
-7. route request - request data to route, format and security
-8. save response (00 success, 31 failed, 06 failed)
-
 transaction security
 ---
 check digit - temporary block account if txn occurs within a period eg 1 sec interval and there are more than 1 request
@@ -113,5 +104,17 @@ tables for duplex transactions
 determination of json request - whether json object or json with nested objec
 ls momo engine
 
+04062023
+1. ls txn tables - 2 tables to be used. 1.trans_req_log, transaction
+2. 
 
- 
+
+error codes to use, error codes mapping table
+see ecardb.e_reversal table
+method markReversed(reference) = updates columns to reversal status. 
+
+
+risk checks
+-
+check digit
+log suspicious or profiled txns

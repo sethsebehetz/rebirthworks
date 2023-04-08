@@ -104,4 +104,18 @@ LS development analysis
 ---
 4. added ip whitelisting check for ls api credential.
 5. updated merchant api security check ip whitelising check
-6. 
+6. filter - request body date decryption 
+7. LS transaction table
+
+05-07 04.2023
+--
+1. LS transactions table deep brainstorming
+
+08.04.2023
+---
+1. LS transactions table created. two tables transactions and transaction_detail
+2. ls works breakdown
+3. ls mac 
+4. ls reference generator 1. sequential from database and also pure random from app
+5. config service api to get configs by prefix
+6. config client auto refresh scheduler

@@ -1,0 +1,282 @@
+Proposed Transactions Table
+-----
+
+
+The current platform has every system keeping their own transaction records or database. This has resulted in a multitude of database cluster in the ETZ environment. Eg major clients to AS eg FundGate, Justpay all keep their
+independent tables to store their transactions data.
+This new platform avoids this by having a central database for all transactions. These tables will be well designed to cater for any specific use case and be able to satify all data requirements that will arise
+
+Components of the transaction data
+---------------
+1. Merchant data
+2. Transaction data
+2. Sender data
+4. Receiver data
+5. Processor data
+6. Switch data
+7. state data
+8. Security data
+9. Time data
+10. Metrics data
+11. Settlement data
+
+	
+1.	Merchant data
+	1. merchantCode
+	2. accountId  xxx
+	3. bankCode	  xxx
+
+	
+2. Transaction data
+	1. serviceCode xxx
+	2. amount
+	3. debitAccount
+	4. creditAccount
+	5. description  (format can be agreed)
+	6. debitBankCode
+	7. creditBankCode
+	8  fee
+    9. elevy
+	10. merchantReference
+	11. reference
+	12. customerReference (reference entered by customer)  - 
+	13. product  (eg MTN airtime, Vodacash Momo debit, DSTV:accountnumber). ie descriptive narrative of the main item been been transacted - not for public
+	14. cardNumber
+	15. payment_type   xxx
+	16. channel	
+	
+	
+	
+3. Sender data  - do we have to store any of these data, do they breach privacy
+	1. senderName  xxx
+	2. senderMobile  
+	3. Location (useful for remmittance, location can be country)  xxx
+	
+	
+4. Receiver data - do we have to store any of these data, do they breach privacy
+	1. receiverName  xxx
+	2. receiverMobile  xxx
+	3. location  xxx
+	
+	
+5. Debit Processor data
+	1. processer (eg GIP, MTN , GCB) l  xxx
+	2. processorReference			   xxx
+	3. processorResponseCode		   xxx
+	4. processorMessage				   xxx
+	
+
+7. Switch data
+	1. transcode					 
+	2. response_code
+	3. switchReference  (shd be sequential) - xxxx
+	4. switchNarration  xxx
+	5. Flag   (help to indicate status such as reversed, etc) 0=processed, reversed
+	6. route/node id    xxxx
+	
+
+8. other data
+	process_attempt   xxx
+
+
+9. state_data
+	error_history eg 58#0,6   xxx
+	state eg status checked   xxx
+	
+10. SecurityData
+	1. mac
+	2. request id
+
+
+11. Metrics data   -  ref,  sourcebankcode, creditbankcode, tat, dr_tat, cr_tat, insert tat1, update tat1, insert tat2, update tat2,   - will be done in a separate thread
+	1. txn_tat processingTime(TAT)   xxx
+	2. dbInsertTAT					 xxx
+	3. dbUpdateTAT					 xxx
+	
+
+12. Time data  - tabl1 and tabl2 will all have these columns
+	1. requestTime
+	2. responseTime
+	
+	
+	
+	table ddl column names table name  transaction
+	id,
+	merchant_code,   idx = merchant_code
+	reference, merchant_reference, amount, fee, elevy, card_number, debit_account, debit_bank_code, credit_account, credit_bank_code, description, customer_reference, product, channel
+	   idx =  card_number, debit_account, debit_bank_code, credit_account, credit_bank_code, amount, description, merchant_reference, reference, product, channel
+	sender_mobile	idx = senderMobile	
+	trans_code, response_code, flag   idx = trans_code, response_code, switch_reference, switch_flag	
+	mac, request_id	
+	request_time, response_time     idx = request_time, response_time
+	
+	
+	note: trans_code table: do we need it? shd be hard coded in a class so a devloper can access all the various transacodes during impl
+	
+	
+	CREATE TABLE `transaction` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_code` varchar(25) NOT NULL,
+  `reference` varchar(55) NOT NULL,
+  `switch_reference` varchar(55) NOT NULL,
+  `merchant_reference` varchar(55) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `fee` decimal(6,2) DEFAULT NULL,
+  `elevy` decimal(6,2) DEFAULT NULL,
+  `description` varchar(150) DEFAULT NULL,
+  `product` varchar(45) DEFAULT NULL,
+  `trans_code` varchar(5) DEFAULT NULL,
+  `card_number` varchar(65) DEFAULT NULL,
+  `debit_bank_code` varchar(6) DEFAULT NULL,
+  `debit_account` varchar(25) DEFAULT NULL,
+  `credit_bank_code` varchar(6) DEFAULT NULL,
+  `credit_account` varchar(25) DEFAULT NULL,
+  `response_code` varchar(5) DEFAULT NULL,
+  `customer_reference` varchar(45) DEFAULT NULL,
+  `channel` varchar(5) DEFAULT NULL,
+  `sender_mobile` varchar(25) DEFAULT NULL,
+  `flag` varchar(5) DEFAULT NULL,
+  `mac` varchar(64) DEFAULT NULL,
+  `request_id` varchar(40) DEFAULT NULL,
+  `request_time` timestamp NULL DEFAULT current_timestamp(),
+  `response_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `reference_UNIQUE` (`reference`),
+  UNIQUE KEY `switch_reference_UNIQUE` (`switch_reference`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+
+"transaction" : {          // this same request(plus switch params like switch reference etc) will be forwarded to the processor bridges since it contains all needed params    v1/lytswitch/cbs
+		"merchantCode" : "",
+		"merchantBankCode" : "",		
+		"reference":"",
+		"merchantReference" : "",
+		"amount" : ,
+		"fee" : ,
+	    "elevy" : ,
+		"description" : "",
+		"product" : "",	   
+		"transCode" : "",		
+		"cardNumber" : "",
+		"debitBankCode" : "",
+	    "debitAccount" : "",
+		"creditBankCode" : "",
+		"creditAccount" : "",		   
+		"customString" : "",	    		
+		"customerReference" : "",		
+		"channel" : "",
+		"senderMobile":"",
+		"pin" : "",
+		"requestId":""		
+	},
+	
+response{
+   "response":{
+		"responseCode":"",
+		"reference":"",
+		"switchReference":"",
+		"balance": 45,
+		"isReversed": false
+	}
+	"statement":[
+		{
+		"amount":3
+		"type":"dr",
+		"description":""
+		"date": "23-04-2023"
+		}
+	],
+	"debitProcessor":{
+	  "name":"MTN",
+	  "responseCode":""
+	  "reference":"",
+	  "message":""	  
+	},
+	"creditProcessor":{
+	  "name":"MTN",
+	  "responseCode":""
+	  "reference":"",
+	  "message":""	  
+	}
+	"metrics":{
+		"processTime":"",
+		"requestTime":"",
+		"responseTime":""
+	}
+}
+
+emtc = 46 cols		
+erequestlog 18 cols
+
+	
+
+============================
+1.	Merchant data
+	1. merchantCode
+	2. accountId  xxx
+	3. bankCode	  xxx
+
+	
+2. Transaction data
+	1. payment_type  		
+
+	
+3. Sender data  - do we have to store any of these data, do they breach privacy
+	1. senderName  xxx
+	2. senderMobile  xxx
+	3. Location (useful for remmittance, location can be country)  xxx
+	
+	
+4. Receiver data - do we have to store any of these data, do they breach privacy
+	1. receiverName  xxx
+	2. receiverMobile  xxx
+	3. location  xxx
+	
+	
+5.  Processor data
+	1. processer (eg GIP, MTN , GCB) l  
+	2. processorReference			   
+	3. processorResponseCode				   
+	4. processorMessage				   
+
+
+7. Switch data
+	1. Flag   (help to indicate status such as reversed, etc) 0=processed, reversed   
+	2. route/node id    
+	
+
+8. other data
+	process_attempt   
+
+
+9. state_data  (processor message field will be used to achieve these two
+	error_history eg 58#0,6   xxx
+	state eg status checked   xxx
+	
+10. SecurityData
+	1. mac
+	2. request id
+
+
+11. Metrics data   - transaction_metrics :  ref,  sourcebankcode, creditbankcode, tat, dr_tat, cr_tat, insert tat1, update tat1, insert tat2, update tat2,   - will be done in a separate thread
+	1. txn_tat processingTime(TAT)   xxx
+	2. dbInsertTAT					 xxx
+	3. dbUpdateTAT					 xxx
+	
+
+12. Time data  - tabl1 and tabl2 will all have these columns
+	1. requestTime
+	2. responseTime
+	
+	
+		table ddl column names   table name  transaction_detail
+	id,
+	merchant_code,    idx = merchant_code
+    payment_type
+	   idx = payment_type
+	processor, processor_reference, processor_response_code, processor_message  idx = processor, processor_reference, processor_response_code		
+	flag, route_id, 
+	process_attempt   idx = process_attempt
+	mac,request_id 
+	request_time, response_time     idx = request_time, response_time
+	

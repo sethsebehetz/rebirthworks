@@ -1,0 +1,30 @@
+LS Flow
+---
+1. incoming request
+2. security checks - authentication
+3. generate mac, switch reference
+
+4. call cms webservice(if it applies)
+5. insert record (if it applies)
+
+6. Add merchant data to request
+7. route request - request data to route, format and security, see ecarddb.e_tmcnode;, (see efrontend ecarddb.interface table columns (active,allow_web), see ecarddb.e_tmckey for key exchange
+8. save response (00 success, 31 failed, 06 failed)
+
+
+gen mac, 
+gen switch ref
+call cms logic to use
+LS Error codes determination
+LS response json
+records logging: do we log once(one insert) or we update after logging - brain storming
+
+routing module brain storming
+
+DDMMYY123456789
+
+999,999,999
+
+080423000000001
+000000001
+000,000,001

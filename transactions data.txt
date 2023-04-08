@@ -34,9 +34,11 @@ Components of the transaction data
     9. elevy
 	10. merchantReference
 	11. reference
-	12. customerReference (reference entered by customer)
+	12. customerReference (reference entered by customer)  - meta
 	13. product  (eg MTN airtime, Vodacash Momo debit, DSTV BILL). ie descriptive narrative of the main item been been transacted - not for public
 	14. cardNumber
+	15. payment_type   
+	16. channel	
 	
 	
 3. Sender data
@@ -52,7 +54,7 @@ Components of the transaction data
 	
 	
 5. Processor data
-	1. processer (eg MTN, DSTV, GCB)
+	1. processer (eg MTN, DSTV, GCB)l
 	2. processorReference
 	3. processorError
 	4. processorMessage	
@@ -60,14 +62,13 @@ Components of the transaction data
 
 6. Switch data
 	1. switchError
-	2. switchReference  (shd be sequential
+	2. switchReference  (shd be sequential) - 
 	3. switchNarration 
 	4. switchFlag   (help to indicate status such as reversed, etc) 0=processed, reversed
 	
 
-7. meta data
-	1. channel
-	2. transcode
+7. meta data	
+	1. process_attempt
 
 
 8. state_data
@@ -79,7 +80,7 @@ Components of the transaction data
 
 
 10. Metrics data
-	1. processingTime(TAT)
+	1. txn_tat processingTime(TAT)
 	2. dbInsertTAT
 	3. dbUpdateTAT
 	
@@ -89,24 +90,24 @@ Components of the transaction data
 	2. responseTime
 	
 
-12. Settlement data
-	Not yet available
+
 		
 
 
 table ddl column names
 	id,
-	merchant_code, account_id, bank_code, 
+	merchant_code, account_id, bank_code,   idx = merchant_code, account_id, bank_code,
 	service_code,  card_number, debit_account, debit_bank_code, credit_account, credit_bank_code, amount, fee, elevy, description, merchant_reference, reference, customer_reference, product,
-	sender_name, sender_mobile, sender_location
-	receiver_name, receiver_mobile, receiver_location
-	processor, processor_reference, processor_error, processor_message
-	switch_error, switch_reference, switch_narration, switch_flag
+	   idx = service_code, card_number, debit_account, debit_bank_code, credit_account, credit_bank_code, amount, description, merchant_reference, reference, product
+	sender_name, sender_mobile, sender_location   idx = sender_mobile
+	receiver_name, receiver_mobile, receiver_location    idx = receiver_mobile, 
+	processor, processor_reference, processor_error, processor_message  idx = processor, processor_reference, processor_error
+	switch_error, switch_reference, switch_narration, switch_flag   idx = switch_error, switch_reference, switch_narration, switch_flag
 	error_history, state
 	mac
-	tat, db_insert_tat, db_update_tat
-	request_time, response_time
-	ext1(string), ext2(string), ext3(double) reserved for future
+	txn_tat, db_insert_tat, db_update_tat   idx = txn_tat, db_insert_tat, db_update_tat 
+	request_time, response_time     idx = request_time, response_time
+	ext1(string), ext2(string), ext3(double) reserved for future 
 	
 ----------------------------------
 ----------------------------------
@@ -227,6 +228,8 @@ LytSwitch transaction request api
   Withdrawal
   Purchase
   
+  CMS Trans code
+  ----
   Account Lookup account number
   Account Lookup phoneNumber
   Create account 
