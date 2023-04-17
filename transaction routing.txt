@@ -1,0 +1,56 @@
+Determination of txn requiring CMS
+-----------
+1. If a txn requires CMS it will be gotten from the route property of the issuer code.
+2. Also the CMS URL will be set as a property in the route table
+3. Route table will be designed
+2. two tables needed. nodes, route table (cos during kx handshake each node is called, so if nodes are duplicated that will cause issues.), route table can be used to set actual routes(on creation of node it can be automatically added to route table).
+
+Routing
+=========
+Routing is used to determine the processor or payment gateway to process the txn. - called node
+Transaction will be posted to the node.
+Routing is defined based on the issuer code
+
+Properties
+===
+id, name, issuer_code, ip, port, path, require_cms, cms_url, connection_status (1 connected, 2 disconnected) , kx_status
+last_connected, active (enabled or disabled), enforce_ip (ip whitelisting with exchange), kid
+
+note:
+auto update of node to refresh statuses
+auto checking enabled ie refresh
+when node is added no refresh needed
+changes should be reflected automatically
+no keep alive needed. health check does the job
+
+crud apis
+add permission to permissions table
+
+bank codes
+001 etz
+006 UBA
+
+
+LS Error Codes
+----
+should we use ISO Error codes? maybe yes but with our customisations as well
+
+Transaction Routing(Decision
+------
+-Routing is determined based on the Transcode and bank code of either the source or destination account
+eg 1. If you pass Transcode Debit, the switch will only send request to debit without passing corresponding credit. In this example routing will based on the debit account and the Transcode.
+So the two(debit account and Transcode) together will help do the routing
+
+eg 2. If the Transcode was credit, the credit bankCode will be used to do the routing
+
+eg 3. If the Transcode was FT (ie FT is a duplex transaction), routing will first be done to the debit bank code and then another routing to the credit bank code(ie if debit was successful)
+
+
+TODO
+--
+Create tables node, route
+crud api
+auto update/refresh feature
+permission feature
+
+

@@ -31,6 +31,10 @@ this setting will be made in LS configuration
 merchant code and credit bank code can be used to do the switch just like in the momo xchange config. same logic will be used
 
 
+monitoring
+One example is a Java process sending metrics to some external monitoring system once every minute.
+ls detailed monitoring for each note. 
+each node has a health check endpoint
 
 
 

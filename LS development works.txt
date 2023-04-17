@@ -1,30 +1,69 @@
 LS Flow
 ---
 1. incoming request
-2. security checks - authentication
-3. generate mac, switch reference
+2. security checks (authentication) and request body decryption - done by ls auth filter
+3. request validation - format, amount etc
+4. generate mac, switch reference
+security checks - check digit, account statu(if blocked), cms checks
+5.txn logging for funds mvt requests. no logging for balance,statement etc - txn, txn_detail
+6. route request - request data to route, format and security, see ecarddb.e_tmcnode;, (see efrontend ecarddb.interface table columns (active,allow_web), see ecarddb.e_tmckey for key exchange
+7. call cms webservice(if it applies) - this is determined from route property of issuer code
+8. txn update
+9. Add merchant data to request
 
-4. call cms webservice(if it applies)
-5. insert record (if it applies)
-
-6. Add merchant data to request
-7. route request - request data to route, format and security, see ecarddb.e_tmcnode;, (see efrontend ecarddb.interface table columns (active,allow_web), see ecarddb.e_tmckey for key exchange
 8. save response (00 success, 31 failed, 06 failed)
 
 
+
 gen mac, 
-gen switch ref
+gen switch ref - in app or from table (sequential)
 call cms logic to use
-LS Error codes determination
+LS Error codes determination, error codes table(caching and crud/refresh)
 LS response json
 records logging: do we log once(one insert) or we update after logging - brain storming
 
 routing module brain storming
+key exchange
 
-DDMMYY123456789
+bulkhead: intelligence when node is failing consecutively or is down
 
-999,999,999
 
-080423000000001
-000000001
-000,000,001
+TODO
+momo engine logic,implementation
+reversal logic/implementation 
+   see ecardb.e_reversal table
+   method markReversed(reference) = updates columns to reversal status. 
+reprocessing
+how does ls updates it data eg, the data loaded into cache like transcodes etc
+
+prerequisite models
+-------------
+transcode table
+bank codes
+node
+route table
+transaction request
+transaction response
+error codes
+
+
+what is the security on routing?
+  key exchange and data encryption, can we do mac on txn posted
+  ip whitelisting? NO
+  
+
+LS Start
+--
+ 1.  Tables to load to memory/cache
+		1. load node, routes to memory/cache - active routes. auto refresh will reload routes activated or new routes added 
+			methods - load routes, load route
+	    2. transcode
+		3. banks code table
+		4. error codes
+		
+		note: crud apis, auto refresh for all
+		
+2. start key exchange check file LS Key exchange
+3. LS flow - check file LS development
+
+if request comes u check if the route kx is complete     

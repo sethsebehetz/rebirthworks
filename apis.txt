@@ -1,0 +1,87 @@
+Rebirth API - Work done
+
+1. Merchant Interface
+ 1. /merchant  create merchant account
+ 2. /merchant/login login
+ 3. /merchant/changepassword change password
+ 4. /merchant get merchant info 
+ 5. /kyc/businessprofile full merchant kyc to collect data before production access
+ 6. /merchant/upload  files, logo business document upload
+ 7. /merchant/logo get merchant logo
+ 8. /merchant/uploads get merchant files uploaded
+ 9. /merchant/upload/{id} delete merchant uploaded file
+ 10. /merchant/addprodcut add service to use on the platform
+ 11. /merchant/products get all merchant services
+ 12. /merchant/addipaddress  whitelist ip address
+ 13. /merchant/ipaddresses get merchant whitelisted ip addresses
+ 14. /merchant/ipaddres/{id} delete merchant whitelisted ip address
+ 
+ 
+2. Admin Interface
+  1. /admin  create user account
+  2. /admin/login
+  3. /admin/users get users
+  4. /admin/{id} get user
+  5. /admin/changepassword 
+  6. /admin/{id} delete user
+  7. /admin/user/status/{id}/{status}  change user account security profile status - activate, suspend, block user account, values for status will be provided
+  8. /admin/user/resetpassword/{id}  reset merchant password
+  9. /admin/createrole  creat user role
+  10. /admin/edit role
+  11. /admin/deleterole/{roleName}  delete role
+  12. /admin/permissions get permissions
+  13. /admin/permissions/{roleName} get permissions by role name
+  14. /admin/addpermission  add user permissions
+  15. /admin/deletepermission/{id}  delete permissions by id
+  16  /admin/getmerchants
+  17. /admin/
+  18. /admin//merchant/status/account/{id}/{status}  change merchant account security profile status - activate, suspend, block user account
+  19. /admin/merchant/status/risk/{id}/{status}  change merchant risk approval security profile status (api live access status)
+  20. /admin/merchant/status/product/{id}/{productCode}/{status}  approve product(service) selected by a merchant - approve or deny
+  21. /admin/merchant/resetpassword/{id}  reset merchant password
+  22. /admin/merchant/resetapicredentials/{id} reset merchant api credentials
+  23. /admin/lytswitch/generateapicredentials  create LytSwitch api credentials
+  24. /admin/lytswitch/addipaddress/{id}  add ip address to LytSwitch credential to whitelist
+  25. /admin/lytswitch/status/apicredential/{id}/{status}  enable or disable ls api credential
+  26. /admin/lytswitch/apicredential/{id}  delete ls api credential 
+  27. /admin/lytswitch/apicredentials/{id}  get all ls api credentials
+  28. /admin//merchant/products/{id}  get a merchant's services/products
+  29. /admin//merchant/products  get all merchants product
+  30. /admin/merchant/{id} delete merchant
+  31. /admin/merchant/uploads/{id} get merchant uploaded files
+  32. /admin/
+ 
+ 
+ 
+ 
+3. Config Service
+  1. /config/ add new config property(key-value pair)
+  2. /config/{id} update config
+  3. /config/configs get all configs
+  4. /config/prefix get configs by prefix
+  5. /config/{id} get config by id
+  6. /config/{id} delete config by id
+  7. /config/refresh refresh configs
+ 
+ 
+ 
+4. Service registry - used by developers to register their apis on the platform
+  1. /serviceregister/registerNewService  register/add new api 
+  2. /serviceregister/  update service register
+  3. /serviceregister/services get all registered services/api
+  4. /serviceregister/services/{id} get service register
+  5. /serviceregister/{id}  delete service register
+  6. /serviceregister/refresh  refresh service register
+  
+  
+  
+5.  Services/Products services or products available on the platform
+   1. /services/ post new service
+   2. /services/{code}  update service
+   3. /services/  get services
+   4. /services/{code}  get service
+   5. /services/{code} delete service
+  
+ 
+ 
+ cloudflare integration

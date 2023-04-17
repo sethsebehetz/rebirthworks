@@ -17,16 +17,19 @@ centralised config
 centralised logging
 
 
-password history check
----
-1. new password shd not be same as last 4 password used.
-
-1. this means we need to store all user password in a history table
-2. so we can check
-
-1. when creating user we store the password
-2. when changing password too we store the password - if change password is successful we store the password and salt
-
-
 
 ADD BULK PAYMENT - FOR CORPORATE PAY
+EMAIL SERVICE
+SMS SERVICE
+
+
+//TODO generate new merchant api credentials by admin
+columns to update - kid,priv_key, pub_key, client_id, client_secret, 
+mail is sent to merchant email. 
+
+   get merchant
+   generate the new credentials
+   update merchant record with new credentials 
+   Note merchant code and account id will not be changed
+   email will be sent to merchant to notify him of the changes
+'1', 'c1be0aa50fd6457f9f5eeba8e21d3608', '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', '2022-10-30 06:02:13'

@@ -20,7 +20,9 @@ Components of the transaction data
 10. Metrics data
 11. Settlement data
 
-	
+
+TRANSACTION TABLE DESIGN/ANALYSIS
+==================================
 1.	Merchant data
 	1. merchantCode
 	2. accountId  xxx
@@ -146,71 +148,13 @@ Components of the transaction data
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
 
-"transaction" : {          // this same request(plus switch params like switch reference etc) will be forwarded to the processor bridges since it contains all needed params    v1/lytswitch/cbs
-		"merchantCode" : "",
-		"merchantBankCode" : "",		
-		"reference":"",
-		"merchantReference" : "",
-		"amount" : ,
-		"fee" : ,
-	    "elevy" : ,
-		"description" : "",
-		"product" : "",	   
-		"transCode" : "",		
-		"cardNumber" : "",
-		"debitBankCode" : "",
-	    "debitAccount" : "",
-		"creditBankCode" : "",
-		"creditAccount" : "",		   
-		"customString" : "",	    		
-		"customerReference" : "",		
-		"channel" : "",
-		"senderMobile":"",
-		"pin" : "",
-		"requestId":""		
-	},
-	
-response{
-   "response":{
-		"responseCode":"",
-		"reference":"",
-		"switchReference":"",
-		"balance": 45,
-		"isReversed": false
-	}
-	"statement":[
-		{
-		"amount":3
-		"type":"dr",
-		"description":""
-		"date": "23-04-2023"
-		}
-	],
-	"debitProcessor":{
-	  "name":"MTN",
-	  "responseCode":""
-	  "reference":"",
-	  "message":""	  
-	},
-	"creditProcessor":{
-	  "name":"MTN",
-	  "responseCode":""
-	  "reference":"",
-	  "message":""	  
-	}
-	"metrics":{
-		"processTime":"",
-		"requestTime":"",
-		"responseTime":""
-	}
-}
 
 emtc = 46 cols		
 erequestlog 18 cols
 
-	
 
-============================
+TRANSACTION_DETAIL TABLE DESIGN/ANALYSIS
+========================================
 1.	Merchant data
 	1. merchantCode
 	2. accountId  xxx
@@ -269,7 +213,7 @@ erequestlog 18 cols
 	2. responseTime
 	
 	
-		table ddl column names   table name  transaction_detail
+	table ddl column names   table name  transaction_detail
 	id,
 	merchant_code,    idx = merchant_code
     payment_type
@@ -280,3 +224,117 @@ erequestlog 18 cols
 	mac,request_id 
 	request_time, response_time     idx = request_time, response_time
 	
+
+
+JAVA POJOS
+=============
+"transaction" : {          // this same request(plus switch params like switch reference etc) will be forwarded to the processor bridges since it contains all needed params    v1/lytswitch/cbs
+		"merchantCode" : "",	
+		"reference":"",
+		"merchantReference" : "",
+		"amount" : ,
+		"fee" : ,
+	    "elevy" : ,
+		"description" : "",
+		"product" : "",	   
+		"transCode" : "",		
+		"cardNumber" : "",
+		"debitBankCode" : "",
+	    "debitAccount" : "",
+		"creditBankCode" : "",
+		"creditAccount" : "",		   
+		"customString" : "",	    		
+		"customerReference" : "",		
+		"channel" : "",
+		"senderMobile":"",
+		"pin" : "",
+		"requestId":""		
+	},
+	
+response{
+   "response":{
+		"responseCode":"",
+		"reference":"",
+		"switchReference":"",
+		"balance": 45,
+		"isReversed": false
+	}
+	"statement":[
+		{
+		"amount":3
+		"type":"dr",
+		"description":""
+		"date": "23-04-2023"
+		}
+	],
+	"debitProcessor":{
+	  "name":"MTN",
+	  "responseCode":""
+	  "reference":"",
+	  "message":""	  
+	},
+	"creditProcessor":{
+	  "name":"MTN",
+	  "responseCode":""
+	  "reference":"",
+	  "message":""	  
+	},
+	"custom":{
+		"data":""
+	},
+	"metrics":{
+		"processTime":"",
+		"requestTime":"",
+		"responseTime":""
+	}
+	
+}
+mac = hmac(amount+reference+debitAccount+creditAccount , secret);
+
+
+Response Codes  note there should be a column isReversed to indicate the reversal action - values yes,no,na
+00 Transaction Successful. The transaction has been approved and processed successfully.
+06 Transaction Failed. 
+
+
+12 Invalid transaction type. The transaction type is invalid. Please check the transaction type and try again
+13 Invalid amount. The transaction amount is invalid. Please check the transaction amount and try again.   
+14 Invalid account number. The account number is invalid. Please check the account number and try again.
+15 Invalid transaction fee - The transaction was declined due to an unacceptable transaction fee
+16 Invalid Merchant - The merchant  entered is invalid. Please check the merchant code and try again.
+17 Invalid Transaction Reference - The transaction reference entered is invalid. Please check the transaction reference and try again.
+18 Invalid request. The request data or format provided is not valid.
+
+20 Wrong Pin : The PIN entered is invalid. Account may be locked
+21 Pin tries exceed. Maximum allowable wrong pin tries exceeded.
+22 Transaction rejected. The transaction has been rejected by the switch. Please contact customer support for more information.
+29 Suspected Fraud.  eg. Transaction not allowed because of suspected fraud. eg mac check failed   
+
+31 Transaction Pending. No status of transaction available. Transaction processed but final response not available. Check again later or do status check to get final status.
+32 Transaction in progress. The transaction is being processed and a response is not yet available. Mostly for use txns that are processed asynchronously
+
+50 Limit Exceeded - The account has reached its allowable limit to transact. Please contact customer support for more information.
+51 Insufficient Funds. The account does not have sufficient funds to process the transaction. Please add funds to the account and try again.
+52 Account restricted - The account has been closed, blocked inactive or suspended. Please contact customer support for more information.  The account is restricted and cannot be used for the transaction
+
+64 Transaction Not Found - The transaction with the provided transaction ID could not be found. Please check the transaction ID and try again.
+
+91 No route defined for bank. Contact system administrator
+92 Issuer Not available - The bank is currently unavailable. Please try again later. Issuer or switch is inoperative   
+94 Duplicate transaction. The transaction has already been processed. Please check the transaction history and try again.
+95 Timeout Error. The transaction has timed out. Please check if funds have not moved before trying again after some few minutes.
+96 System error. There was an error processing the transaction. Please check if funds have not moved before trying again after some few minutes.
+97 Unknown Error
+  
+
+   
+   
+   
+   
+
+   
+   
+   
+   
+   
+   

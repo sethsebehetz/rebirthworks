@@ -115,7 +115,46 @@ LS development analysis
 ---
 1. LS transactions table created. two tables transactions and transaction_detail
 2. ls works breakdown
-3. ls mac 
+3. ls mac analysis - determination of mac constituents
 4. ls reference generator 1. sequential from database and also pure random from app
 5. config service api to get configs by prefix
 6. config client auto refresh scheduler
+7. java pojos - LS transaction request class and response 
+
+
+09.04.2023
+1. Determination of wheter txn requires CMS
+2. routing logic and design analysis
+3. route table properties
+
+
+10.04.2023
+--
+1. LS flow analysis, flow diagram
+2. LS response codes
+
+11.04.2023
+--
+1. microservices packaging for deployment for Mike Eshun. 6 services - apigateway, config service, admin service, merchant service, service register service, service(products)
+
+11-15 04.2023
+1. LS xchanges security
+2. ls key xchange analisys and design
+3. Diffie Helman key xchange research/analysis complete
+4. Transcode api - crud 
+
+16.04.2023
+--
+1. transcode api crud, bugs troubleshooting and testing
+2. banks api crud, bugs troubleshooting and testing
+4. node, routes crud api - ongoing
+
+
+
+
+
+
+4. devt of key exchange
+
+
+5. demo xchange(node)

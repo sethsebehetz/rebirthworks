@@ -62,4 +62,6 @@ IP Whitelisting
 
 NOTE: ip address addition or modification shd be effected in realtime. we dont want a situation when a merchant is added and we wait for a period to restart b4 it has taking effect	 
 
-	 
+TODO
+===
+1. scheduler to be checking txn integrity(mac) and report fraudulent activity	 

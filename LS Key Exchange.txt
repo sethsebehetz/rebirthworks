@@ -1,0 +1,187 @@
+KEY exchange
+
+LS is not a txn processor. Ls is a switch and routes requests to the actual txn processing node(xchange). ls is responsible for the communication between the nodes and the security thereof.
+ls establishes a security contract between it and the node. It is important that the node can only receive instruction from ls and from no other. 
+it will constitute a serious security breach if any other system can send requests to any of the node.
+Request is one way ie From LS -> node
+
+
+how to establish security trust between LS Central and Processing node(called xchange)
+------------------------
+1. LS should establish a secure contract and communication channel with the xchange through the following
+	1. TLS Transport 
+    2. Diffie-Helman key exchange - 
+	3. data encryption using AES GCM mode (secet key obtained from key exchange from 2
+	4. ip whitelisting (ip possible). this is a configurable feature
+	
+2. LS Central should establish a perpetual communication channel with the xchange. this can also be initiated from the xchange. 
+   LS should have a mechanism in place to restore the communication anytime there is a drop or breakdown. 
+   LS should monitor the uptime between it and the xchange.
+
+
+=============================================================================================
+=============================================================================================
+
+SERVER A
+1. Generates Key Pair using DH algo
+	- Private Key
+	- Public Key
+2. Sends Public key to server B
+3. Receive Server B public key
+4. Generates AES secret key using server A private key and server B public key
+5. communication will be encrypted using the secret 
+note. Server B also goes through the same flow in the communication
+
+Key Xchange flow/handshake
+----
+1. gen key pair
+2. hello message
+3. send pub key - 
+4. acknowledge pub key receipt and send your pub key
+5. end of handshake
+
+Again
+1. hello A
+	 hello response B
+2. Here is my pub key A
+	 <- acknowledge (HTTP 200) B
+	 <- this is also my pub key B
+	 
+NOTE
+session id shd be passed at all times in the handshake
+mechanism to mark key exchange as complete
+key xchange status 0=disconnected, 1=connected
+
+Using DFH algo ensures high confidentiality btwn LS and the xchange
+
+Hardening the security
+---
+1. the xchange of the public key will be done over https
+2. The client shd verify the public key received is truly from LS. see how digital signature can be used to do this
+
+flow
+--
+1. LS server does kx with every node/route asynchronously
+2. shd the handshake process be bidirectional (ie it can be initiated either by LS or the xchange) : no will only be initiated by LS
+3. what happens when there is a restart of any of the services? how does handshake starts? : LS always checks the status and the kx and when it is down ls starts a new kx
+
+sending of keys
+--
+if both are not servers how can keys be sent by one to the other
+how can each one expose their health
+both LS and xchange will be servers	 
+LS server will be accessed over https
+LS client will be accessed over https
+
+after binding/handshake
+update last kx date
+each flow carries a sesson id
+on success both parties saves the session id/handshake id
+echo with sesion id/response with session id
+is echo calls important?
+also both parties saves their secret key
+
+on system start 
+-----
+who sends/initiates handshake?
+
+Note
+----
+only server can initiate handshake
+This avoids the problem of both sides initiating handshake which can lead to race condition
+
+how can we monitor drops in handshake or when new session starts
+think of connector statistics
+
+1. connection established - (data to save)
+2. Echo requests to check handshake status
+	- interval
+	- if echo fails (eg 2x 
+	- how to start	new connection on fails
+	- change connection state (data)
+			-data saved in memory
+			-data saved to database
+			
+on client start 
+	handshake waiting for connection from ls
+	handshake request received
+	acknowledgement sent
+	connection established
+	connection is/session key is
+
+
+TODO
+--
+Key Exchange implemenation LS/node
+Demo exchange(node)
+LS Client/Exchange Demo class
+It is important that the node can only receive instruction from ls and from no other. it will constitute a serious security breach if any other system can send requests to any of the node
+LS should monitor the uptime between it and the xchange.(performance/monitoring statistics
+Quarkus server https set up - both ls and xhange will listing on https port
+
+SERVER kx handshake 
+================================
+startKX method{  //this method returns a kxState model and receives a kxRequest model
+	1. gen session id
+	2. gen ls keypair is ls going to use same kp for all nodes? yes same public key will be used. pub key is not a secret.its meant for sharing. also all nodes using the sam pub key for ks does not expose any risk. 
+		each xchange generates their own key pair, also good for performance as keypair generation is computatively expensive. So LS stores its kp data session application scoped
+	3. initiate kx with each node asyn. ie call each node kx api on path /kx 
+		
+		kx request
+		  {
+			bankCode
+			sessionId
+			command
+		  }
+		ks response{
+		  bankCode
+		  sessionId
+		  response
+		}
+		
+	4. how does LS stores each nodes session key and public key in the data . also how does ls stores each node's connection state
+		we can use a map of the kxModel with each bank code as the key - all maps will be concurrentHashMap. This can be wrapped in a class
+		
+		
+kx commands
+1. INIT_KX
+2. INIT_KX_RSP
+3. FIN_KX
+4. FIN_KX_RSP
+
+
+when does LS starts the hshk
+  on start of LS app kx shd be part of the topmost first activities
+  until after kx that ls shd start processing txns. txns that comes after kx shd be stored in a queue or rejected. if stored in a key pending shd be returned
+  
+  
+=====================================
+Client/Exchange KX
+==================
+how xchange/client saves data.
+
+kxState  model properties = sessionId, bankCode, state, pubKey, privKey, recvPubKey, status
+
+the model data will be application scoped
+
+if new req hits the client endpoint 
+   check if command is INIT_KX
+     if yes clear records and set new sesion id
+	 but if priv/pub key already there shd we reuse or start new? we will always regenerate new key pair
+	 set state to INIT_KX, gen key pair(pubKey, privKey), and recvPubKey(was part of INIT_KX request body)
+	 generate AES Secret key from privKey and recvPubKey
+	 send INIT_KX_RSP
+	 receive FIN_KX
+	 send FIN_KX_RSP
+	 set status to connected	 
+}
+=============================
+
+SERVER HEALTH CHECK
+=================
+how server checks kx status.
+as part of server health check to all nodes/xchanges, this check will also check the connection status of the kx(server request will have ssid, bank code, xchange will return its ssid also, ssid of both shd be the same). 
+if the status of kx fails. server starts new kx 
+
+
+

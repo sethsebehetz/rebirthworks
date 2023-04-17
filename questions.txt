@@ -1,0 +1,11 @@
+Joshua
+--
+Transaction controls
+what are controls,card controls
+how are they handled in the current system
+where are their data stored,generated
+
+
+Fees
+---
+ecatscale
