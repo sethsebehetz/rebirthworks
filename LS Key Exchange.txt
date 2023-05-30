@@ -11,12 +11,12 @@ how to establish security trust between LS Central and Processing node(called xc
 1. LS should establish a secure contract and communication channel with the xchange through the following
 	1. TLS Transport 
     2. Diffie-Helman key exchange - 
-	3. data encryption using AES GCM mode (secet key obtained from key exchange from 2
+	3. data encryption using AES GCM mode (secret key obtained from key exchange from 2
 	4. ip whitelisting (ip possible). this is a configurable feature
 	
 2. LS Central should establish a perpetual communication channel with the xchange. this can also be initiated from the xchange. 
    LS should have a mechanism in place to restore the communication anytime there is a drop or breakdown. 
-   LS should monitor the uptime between it and the xchange.
+   LS should monitor the uptime between it and the xchange.ie connectivity statistics
 
 
 =============================================================================================
@@ -57,7 +57,7 @@ Using DFH algo ensures high confidentiality btwn LS and the xchange
 Hardening the security
 ---
 1. the xchange of the public key will be done over https
-2. The client shd verify the public key received is truly from LS. see how digital signature can be used to do this
+2. The client shd verify the public key received is truly from LS. find out how digital signature can be used to do this
 
 flow
 --
@@ -96,8 +96,8 @@ think of connector statistics
 1. connection established - (data to save)
 2. Echo requests to check handshake status
 	- interval
-	- if echo fails (eg 2x 
-	- how to start	new connection on fails
+	- if echo fails (eg 2x we can fire alerts (based on circuit breaker implementation)
+	- how to start new connection on fails
 	- change connection state (data)
 			-data saved in memory
 			-data saved to database
@@ -107,40 +107,59 @@ on client start
 	handshake request received
 	acknowledgement sent
 	connection established
-	connection is/session key is
+	connection id/session key is 
 
 
 TODO
 --
 Key Exchange implemenation LS/node
+	kx health check
+	implementation of LS circuit breaker
 Demo exchange(node)
-LS Client/Exchange Demo class
+  kx implementation
+  health check implemenation
+Alert notification 
+Performance statistics/monitoring  - important to have a graph of the tat from the health check/but we can use a monitoring tool to be doing the health check which will provide us all the visuals and stats we need
+
+
+
 It is important that the node can only receive instruction from ls and from no other. it will constitute a serious security breach if any other system can send requests to any of the node
 LS should monitor the uptime between it and the xchange.(performance/monitoring statistics
 Quarkus server https set up - both ls and xhange will listing on https port
+LS Server/client echo
 
 SERVER kx handshake 
 ================================
 startKX method{  //this method returns a kxState model and receives a kxRequest model
-	1. gen session id
-	2. gen ls keypair is ls going to use same kp for all nodes? yes same public key will be used. pub key is not a secret.its meant for sharing. also all nodes using the sam pub key for ks does not expose any risk. 
+	1. gen session id - ls will gen session id for each node
+	2. gen ls DH keypair. is ls going to use same kp for all nodes? yes same public key will be used. pub key is not a secret.its meant for sharing. also all nodes using the sam pub key for ks does not expose any risk. 
 		each xchange generates their own key pair, also good for performance as keypair generation is computatively expensive. So LS stores its kp data session application scoped
-	3. initiate kx with each node asyn. ie call each node kx api on path /kx 
+	3. initiate kx with each node async. ie call each node kx api on path /kx 
 		
 		kx request
 		  {
-			bankCode
+			issuerCode
 			sessionId
 			command
+			data 
+			signature = nonce . digitalSignature			
 		  }
 		ks response{
-		  bankCode
+		  issuerCode
 		  sessionId
-		  response
+		  cmd response
+		  signatureVerified true/false
 		}
 		
+		nonce
+		signature
+		
 	4. how does LS stores each nodes session key and public key in the data . also how does ls stores each node's connection state
-		we can use a map of the kxModel with each bank code as the key - all maps will be concurrentHashMap. This can be wrapped in a class
+		we can use a map of the kxModel with each node issuer code as the key - all maps will be concurrentHashMap. This can be wrapped in a class
+		
+start kx method detail impl
+--
+1. get nodes list from cache 
 		
 		
 kx commands
@@ -150,9 +169,10 @@ kx commands
 4. FIN_KX_RSP
 
 
-when does LS starts the hshk
+
+when does LS starts the handshake
   on start of LS app kx shd be part of the topmost first activities
-  until after kx that ls shd start processing txns. txns that comes after kx shd be stored in a queue or rejected. if stored in a key pending shd be returned
+  until after kx that ls shd start processing txns. txns that comes after kx shd be stored in a queue or rejected. if stored in a queue pending shd be returned. server will not be opened until after the start up activities are done. this is a quarkus feature
   
   
 =====================================
@@ -175,6 +195,35 @@ if new req hits the client endpoint
 	 send FIN_KX_RSP
 	 set status to connected	 
 }
+
+KxClass ie main Key exchange class
+ methods
+  init
+    1. gen key pair
+	2. get nodes
+	3. for each node call startNodeKx async
+    
+  startNodeKx(Node)
+   
+
+key exchange update    
+--
+we need to ensure that the client can only communicate with LS and that no other party can communicate with the client
+we will use digital signature to let the client verify that the kx request was sent by ls.
+so the init kx request has to be updated to factor this.
+we will add a new key signature and we will pass the nonce . digitalsignature.
+when the client receives it he verifies the signature using ls public key shared and put the verification response in the json key signatureVerified
+
+	
+kx testing
+--
+1. app start kx. 
+      same aes key is generated by both
+	  kxdata stored globally
+	  when ls starts and node is down. kx fails how does kx rechecks and reconnect node to do kx
+
+
+
 =============================
 
 SERVER HEALTH CHECK
@@ -185,3 +234,181 @@ if the status of kx fails. server starts new kx
 
 
 
+
+kx healthcheck/heartbeat/echo/statuscheck
+-------
+
+request 
+{
+ cmd echo 
+ issuerCode
+ echoId  - random request id
+} 
+//note in the request server does not send ssid. this is bcos not all nodes will have ssid set eg when the executime time is aborted before kx completes for all the nodes, the thread state is unpredictable
+response
+{
+ cmd echo_Rsp 
+ issuerCode
+ echoId
+ sessionId  the ssid the node has in session(if any)
+ status true/false if the node has already done kx successful or not ie the node kxstate status
+}
+
+when does health check starts
+---
+Ls starts right after key exchange initialization
+
+checks when node gets the echo request
+---
+(retrieves ssid saved in state data if any - not important anymore since if the node kxState status is true then the ssid will be automatically be present ) and also check the status of its kxstate if it is true. if any of this is false node will set false in the status response
+
+checks when LS gets the echo response
+---
+if status response is true and ssid received is same as in the kxstate data map of the node then success else failed
+
+health check outcomes and actions: explained under circuit breaker as it plays a key role in the decisions to make
+ a. Response received from echo - graceful
+   1. success echo
+   2. failed echo
+ 
+ b. No response received from echo
+ 
+ 
+ 
+ 
+ LS Circuit breaker(cb)
+ ========================
+ A circuit breaker is a pattern used in software development to detect and prevent errors from occurring in a system. 
+ It helps to prevent cascading failures in systems. 
+  if a node health check(hc) fails consecutively for n times we open cb. ie cb is on for the node
+  delay is the number of milliseconds to put a node off(ie stop health check, stop receiving request for that node) after cb is open. 
+  when the delay is elapsed cb is turned off. when cb is on no hc will be done for the node until the delay time has elapsed. 
+  so when a node fails we also save the last failed time to help us when calculating the elapsed time ie the duration the node cb has been turned on
+  
+  new variables to introduce
+  1. failCount 
+  new variable failCount will be added to the kxState for each node to keep track of consecutive failurees. if health check fails we increase failCount by 1
+  this will be reset to zero when hc is successful.
+  2. circuitBreaker on/off
+  3. lastFailureTime
+  note we can wrap all these variables under an object circuitBreaker(failCount,isOpened,lastFailureTime)
+  
+  question
+  do we reset failcount after the delay has elapsed and hc resumes for the node
+     if we reset to zero its ok and new failcount starts but we lose track of the failed counts data for the node.
+	 there will be cases where a node is off for a long time so if we reset it it will not paint a good picture.
+	 when n times is reached it is an indicator for cb to be turned on for the node. 
+	 we can also use the modulos operator to triger turning cb on. eg if consecutive failures threshold is 3 we turn cb on when it reaches 3. we could also do 3 % failcount if it is zero then we turn cb on
+	 this way we maintain the failcount variable without reseting it
+	 However failcount will be reset to 0 in all cases when hc is successful.
+	 we can even build more complex logic with the failcount. eg we can say if failCount reaches x number, we multiply the delay by x factor. 
+	 its important to implement circuitBreaker so a failed node does not hoard the system of scarce resources (memory and cpu usage) and cascade
+	 
+	 
+modulo calculator
+  5%2 = 1
+  0%3 = 0
+  5%4 = 1
+  3%4 = 3
+  1%3 = 1
+  9%3 = 0
+	 
+  disabling a node
+   there shd be the mechanism to disable a node so no hc will be done. a disabled node will also not process transactions
+   how shd this be done?
+	1. by administrator 2. Lytswitch (auto)
+		for now 1 will be done. 2 will not be considered now. 1 already catered for in the nodes api. administrator just have to disable it(inactive). in the getnodes method b4 health check only active nodes are selected
+		
+  
+flow for hc/echo
+---
+note hc is done for all nodes irrespective of their kx status cos we need to get realtime status of each node
+1. get all active nodes
+2. for each node
+	 set flag doHealthCheck = false by default //this flag indicate whether hc shd be done for this node
+		1. check if cb is opened(cb is opened when consecutive failure threshold is reached)
+		   if cb is opened
+				we check if delay has elapsed. ie curent time - last failed time
+				  if yes we . 
+					resume hc for node ie we set flag(ie doHealthCheck to true) in the code  
+					we turn cb off for the node
+				  if no(ie delay has not expired). we set doHealthCheck to false
+		   else cb is off(consecutive failures not reached) so we will do hc, no circuit to break lol
+		2. if doHealthCheck is true
+				we call doHealthCheck(Node) method
+				   if hc is successful
+				       set failCount to 0
+					   set firstfailureTime to 0
+					   set lastFailureTime to 0
+					   cb to off
+					   kxState to true
+					   
+				   if hc failed (conditions for hc failure specified already above)
+					   increase failCount
+					   set firstfailureTime(set only once) in subsequent hc fails it will not be set
+					   set lastFailureTime
+					   check if failCount >= cb threshold
+					      if yes open cb
+						  set kxState to false						  						  						 
+
+complex cb delay algorithms
+---
+for systems that goes down for a long time, it is not enough using the default delay to manage the cb. the default delay(30secs) is usually set at a shorter time.
+so eg we could say if a system has gone down for more than 5 mins we increase the delay by x2, 10 minx by x3, etc. this can be well thougt of 
+						  
+Node status treatment during health check
+---
+note hc gives us realtime information on the status of a node. so we have to update kx status of a node after health check
+during ls tx processing ls checks the status of a node if is true before processing else it will reject the txn with appropriate error
+ for success we update on every hc. we also need to have the property last health checked time in the kxstate.
+but do we update state also on every hc failure						  
+  no for failure we upddate state if only failCount cb threshold is reached. some failure might be a temporal or short lived failures and setting kxState to false on every failure will be too strict and might in some cases gives false status of the node
+  
+  
+health check running considerations
+------
+1. when hc starts and gets response from node. we need to update the kxState data of the node
+Note the ff.
+ 1. we are not replacing or creating new kxState data of the node but updating with the response of the hc
+ 2. It is important to know if the node is in the kxStateDataMap. This is because when we retrieve the node from the kxStateDataMap we can get null;
+ 3. Also a node kxState already contains important data such as the DH public key received, session id, kxState etc that we cant wipe away.
+ 4. Therefore we have to update the kxState after we get response from the hc
+
+ how to go about it
+ ----
+ The flow
+	 
+ recap: on start of LS kx initialization begins. 
+		- here it is not guaranteed that all nodes will be added to the kxStateDataMap
+		- so there exist the possibility of getting null when we atempt to get the node from the kxStateDataMap.
+		
+ I will not do this logic below
+ ------------
+ I could decide to initialize kxStateDataMap with all the nodes, during kx initialization when the app starts, so that the case of getting null will not happeen.
+ But this approach becomes useless when a new node is added as I have to add the new node to the kxStateDataMap as well.
+ I dont want do this as it opens us more avenuee for app failures or introduces another complexity. 
+ I dont want to add nodes to kxstate right on addition but rather add to kxstate when kx or health check is done
+ 
+ 
+ 
+ 
+ how to handle the case of null at the start of hc when node kxstate data is retrieved and it is not in the kxStateDataMap
+ -----
+ so when hc starts for a node we need to get its kxState from the map. if it is null we initialize kxState and add it to the kxStateDataMap and use it going forward
+ If is not null we use the kxState we retrieved going forward. 
+ going forward means updates from hc will be made on the kxState retrieved.
+ This approach makes the application more rubust and self managed
+ 
+ Note: update on null nodes from map(above not to be used). 
+ note: if node is null then obviously no need to do health check. we have to rather do kx for the node. no need to do hc if node is null in kxdatamap. this means no kx exist for node
+ doing kx will insert the node in the kxdatamap and also its status updated. it will now be able to do health check in the nex run of the health check loop
+ 
+ 
+ ==================================================================================================================================================================================================================== 
+ DIGITAL SIGNATURE KEY PAIR
+ ====================================================================================================================================================================================================================
+ privKey MIICXAIBADCCAjUGByqGSM44BAEwggIoAoIBAQCPeTXZuarpv6vtiHrPSVG28y7FnjuvNxjo6sSWHz79NgbnQ1GpxBgzObgJ58KuHFObp0dbhdARrbi0eYd1SYRpXKwOjxSzNggooi/6JxEKPWKpk0U0CaD+aWxGWPhL3SCBnDcJoBBXsZWtzQAjPbpUhLYpH51kjviDRIZ3l5zsBLQ0pqwudemYXeI9sCkvwRGMn/qdgYHnM423krcw17njSVkvaAmYchU5Feo9a4tGU8YzRY+AOzKkwuDycpAlbk4/ijsIOKHEUOThjBopo33fXqFD3ktm/wSQPtXPFiPhWNSHxgjpfyEc2B3KI8tuOAdl+CLjQr5ITAV2OTlgHNZnAh0AuvaWpoV499/e5/pnyXfHhe8ysjO65YDAvNVpXQKCAQAWplxYIEhQcE51AqOXVwQNNNo6NHjBVNTkpcAtJC7gT5bmHkvQkEq9rI837rHgnzGC0jyQQ8tkL4gAQWDt+coJsyB2p5wypifyRz6Rh5uixOdEvSCBVEy1W4AsNo0fqD7UielOD6BojjJCilx4xHjGjQUntxyaOrsLC+EsRGiWOefTznTbEBplqiuH9kxoJts+xy9LVZmDS7TtsC98kOmkltOlXVNb6/xF1PYZ9j897buHOSXC8iTgdzEpbaiH7B5HSPh++1/et1SEMWsiMt7lU92vAhErDR8C2jCXMiT+J67ai51LKSLZuovjntnhA6Y8UoELxoi34u1DFuHvF9veBB4CHFafgT4FWSG90sCP6MgjSWy/aReep41G6LTVnAY=
+ pubKey MIIDQjCCAjUGByqGSM44BAEwggIoAoIBAQCPeTXZuarpv6vtiHrPSVG28y7FnjuvNxjo6sSWHz79NgbnQ1GpxBgzObgJ58KuHFObp0dbhdARrbi0eYd1SYRpXKwOjxSzNggooi/6JxEKPWKpk0U0CaD+aWxGWPhL3SCBnDcJoBBXsZWtzQAjPbpUhLYpH51kjviDRIZ3l5zsBLQ0pqwudemYXeI9sCkvwRGMn/qdgYHnM423krcw17njSVkvaAmYchU5Feo9a4tGU8YzRY+AOzKkwuDycpAlbk4/ijsIOKHEUOThjBopo33fXqFD3ktm/wSQPtXPFiPhWNSHxgjpfyEc2B3KI8tuOAdl+CLjQr5ITAV2OTlgHNZnAh0AuvaWpoV499/e5/pnyXfHhe8ysjO65YDAvNVpXQKCAQAWplxYIEhQcE51AqOXVwQNNNo6NHjBVNTkpcAtJC7gT5bmHkvQkEq9rI837rHgnzGC0jyQQ8tkL4gAQWDt+coJsyB2p5wypifyRz6Rh5uixOdEvSCBVEy1W4AsNo0fqD7UielOD6BojjJCilx4xHjGjQUntxyaOrsLC+EsRGiWOefTznTbEBplqiuH9kxoJts+xy9LVZmDS7TtsC98kOmkltOlXVNb6/xF1PYZ9j897buHOSXC8iTgdzEpbaiH7B5HSPh++1/et1SEMWsiMt7lU92vAhErDR8C2jCXMiT+J67ai51LKSLZuovjntnhA6Y8UoELxoi34u1DFuHvF9veA4IBBQACggEAGkdLxRRibyC1f8zLcLIKTiHcSYzqnGJG0zOhXQJLZkLx7dd19IpFhgSpcDBwmTNa+hpGcIJ8KTO1Ms0plHqATuW98mySlzJ/FQh4hJeWEj3NY6l/H4nWRjtPXYCqTW6Mj4T/w5fXIDrCPqQNP7mOUIDkHyZ6wLX/kgzq5zDXPYRQWt91/R45xTTpBmsCYPlXFxNBYC7Q9oHa3FPiDP/M4UkcuLDf3qPPaDcj800LcmD1dl2LPpVSoew0aoENgGrHLpK8Qn0f1FE5qtLxAKXh8UMliPyhEUZwV6jkPGDhpVKbYZFyBCImOpjSoYdedmwh3lpr8fU0tVDwzHFuEyQrxw==
+ ====================================================================================================================================================================================================================
+ ====================================================================================================================================================================================================================
+ 

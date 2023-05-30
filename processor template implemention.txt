@@ -1,0 +1,23 @@
+demo processor 	
+
+path /cba
+
+receives ls transaction request
+	no database insertion
+
+where will configuration data be stored:
+how will they be deployed - on metal servers or in k8s/container architecuture. mostly this will be stored on client servers so k8s/container might not be ideal 
+any way whatever ls will get an endpoint to call
+storing secrets - options
+	secrets shd be stored on servers environment variable
+	application configuration(not secured)
+	hardcoded in code (not manageable)
+
+flow:
+ 	no specific flow. app will have various cases for the various transacodes and do their implementation.
+	that is what this template is about so implementers of actual xchanges will use this as a guide
+	
+important consideration is the error code mapping 
+  LS uses the error code mapping to make critical decisions eg successful, reversal, pending. the developer shd always get this right as he will be responsible for any wrong error codes sent back to ls
+  The developer shd also do the correct mappings of the processor error codes to ls codes. eg wrong account number , insufficient balance etc shd be returned to lightswitch
+    

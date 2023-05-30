@@ -1,0 +1,125 @@
+request
+==========
+
+{ // this same request(plus switch params like switch reference etc) will be forwarded to the processor bridges since it contains all needed params    v1/lytswitch/client/cba
+    "merchantCode": "",
+    "merchantBankCode": "",
+	"function": ""   //for lytswitch not to be set by callers of lytswitch
+    "transCode": "",
+    "reference": "",
+    "merchantReference": "",
+    "amount": 6.00, //all amounts will be in two decimal places
+    "fee": {
+        "txnFee": 2.00,
+        "elevy": 1.40,
+        "otherFee": 0
+    } 
+	"description": "",
+    "product": "", //product been paid for eg MTN AIRTIME, DSTV. we can agree to pass the alias here
+    "cardNumber": "",
+    "sourceBankCode": "",
+    "sourceAccount": "", 
+    "destinationBankCode": "", 
+    "destinationAccount": "",
+    "customData": "",
+    "customerReference": "",
+    "channel": "",    
+    "pin": "", //pin only sent for processors that handle cms themselves
+    "requestId": "",
+	"vasAccount": "",  //eg dstv account, airtime phone number , gh water acccount no, ecg account number 
+	"processorReference" : "", //processor reference from original txn response, for txns like reversal it may be needed 	
+	"senderData":{
+		"name" : "",
+		"phoneNumber": "",
+		"location" : "", (useful for remmittance, location can be country)
+		"currency" : "" (useful for remmittance)
+	}
+	"receiverData":{
+		"name" : "",
+		"phoneNumber": "",
+		"location" : "", (useful for remmittance, location can be country)
+		"currency" : "" (useful for remmittance)
+	}
+}
+
+	
+	txn Notification response
+	---
+	{
+	 "error" : "",  //translated error code. see ls response codes 
+	 "reference" : "",  //etz reference
+	 "processorBankCode" : ""  // bank code of processor eg 686 for mtn see bank codes list
+	 "processorReference": "", // processor reference 
+	 "processorResponse":"" //original callback message received	 
+	 "receiptTime": "2023-0515 15:23:124"
+	}
+
+
+response
+==========
+{
+    "response": {
+        "responseCode": "",
+        "reference": "",
+		"message":"",
+        "switchReference": ""
+    },
+	"balance":{
+		"balance": 45,
+	}
+    "statement": [
+        {
+            "amount": 3,
+            "type": "D", //or C 
+            "description": "",
+			"debitAcount": "",
+			"creditAccount:"",
+            "date": "23-04-2023"
+        }
+    ],
+    "processor": {
+        "name": "MTN",
+        "responseCode": "",
+		"rersponseMessage": "",
+        "reference": "",
+		"metrics": {
+			"tat": "",
+			"requestTime": "",
+			"responseTime": ""
+		}
+        
+    },
+    "accountData": 
+        {
+            "name": "",			
+            "GHCardNumber": "",
+            "branch": "",           
+			"accounts":[
+				{
+				  "accountNumber":"20124587575",
+				  "accountType": "301984733755",
+				  "accountStatus": "1", 1 active else blocked
+				},
+				{
+				  "accountNumber":"250484422844",
+				  "accountType": "7882709484454",
+				  "accountStatus": "1", 1 active else blocked
+				}
+			],           
+            "phoneNumbers": [
+                "23324400000",
+                "23324400001"
+            ],
+            "info1": "",
+            "info2": ""
+        }
+    ,
+    "customData": {
+        "data": ""
+    },
+    "metrics": {
+        "tat": "",
+        "requestTime": "",
+        "responseTime": ""
+    }
+}

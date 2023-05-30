@@ -25,11 +25,11 @@ Components of the transaction data
 2. Transaction data
 	1. serviceCode
 	2. amount
-	3. debitAccount
-	4. creditAccount
+	3. sourceAccount
+	4. destinationAccount
 	5. description  (format can be agreed)
-	6. debitBankCode
-	7. creditBankCode
+	6. sourceBankCode
+	7. destinationBankCode
 	8  fee
     9. elevy
 	10. merchantReference
@@ -41,16 +41,18 @@ Components of the transaction data
 	16. channel	
 	
 	
-3. Sender data
+3. Sender data    pipe data in this format :  name#location#currency if any is NA we do NA#NA#NA
 	1. senderName
-	2. senderMobile
+	2. senderPhoneNumber
 	3. Location (useful for remmittance, location can be country)
+	4. currency (useful for remmittance)
 	
 	
 4. Receiver data
 	1. receiverName
-	2. receiverMobile
+	2. receiverPhoneNumber
 	3. location
+	4. currency
 	
 	
 5. Processor data
@@ -230,6 +232,34 @@ LytSwitch transaction request api
   Account Lookup account number ALA
   Account Lookup phoneNumber ALP
   
+  
+  TRANSCODES 
+	  Account Lookup account number ALA
+	  Account Lookup phoneNumber ALP	  
+	  Balance Enquiry	BE
+	  Mini Statement	MS
+	  Full Statement	FS	  
+	  
+	  Bank To Wallet	B2W
+	  Wallet To Bank	W2B	  
+	  Account to Account  A2A
+	  InterBank Transfer  IBT
+	  
+	  Airtime Top up	AT
+	  Bill Payment 		BP
+	  
+	  Status Query		SQ
+	  Reversal			RVSL	  
+	  	  
+	  Custom Request	CSR
+  
+	  Credit 			CR
+	  Debit				DR
+	  Remittance		RM	 
+	  Payment			PMT
+	  Withdrawal		WD
+	  Purchase			PC
+  
   CMS Trans code - ls will send these requests to the cms url of the node
   ----
   Profile Lookup - record from ecard table
@@ -242,3 +272,87 @@ LytSwitch transaction request api
 
 
 
+CREATE TABLE `transaction` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_code` varchar(25) NOT NULL,
+  `merchant_bank_code` varchar(6) DEFAULT NULL,
+  `trans_code` varchar(5) DEFAULT NULL,
+  `reference` varchar(55) NOT NULL,
+  `switch_reference` varchar(55) NOT NULL,
+  `merchant_reference` varchar(55) DEFAULT NULL,
+  `customer_reference` varchar(48) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `fee` decimal(6,2) DEFAULT NULL,
+  `elevy` decimal(6,2) DEFAULT NULL,
+  `other_fee` decimal(6,2) DEFAULT NULL,
+  `description` varchar(150) DEFAULT NULL,
+  `product` varchar(45) DEFAULT NULL,
+  `vas_account` varchar(32) DEFAULT NULL,
+  `card_number` varchar(64) DEFAULT NULL,
+  `src_bank_code` varchar(6) DEFAULT NULL,
+  `src_account` varchar(25) DEFAULT NULL,
+  `dest_bank_code` varchar(6) DEFAULT NULL,
+  `dest_account` varchar(25) DEFAULT NULL,
+  `response_code` varchar(5) DEFAULT NULL,
+  `channel` varchar(5) DEFAULT NULL,
+  `sender_phone_number` varchar(25) DEFAULT NULL,
+  `flag` varchar(5) DEFAULT NULL,
+  `mac` varchar(255) DEFAULT NULL,
+  `request_id` varchar(40) DEFAULT NULL,
+  `request_time` timestamp(3) NULL DEFAULT current_timestamp(3),
+  `response_time` timestamp(3) NULL DEFAULT NULL,
+  `custom_data` varchar(164) DEFAULT NULL,
+  `sender_data` varchar(164) DEFAULT NULL,
+  `receiver_data` varchar(164) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `reference_UNIQUE` (`reference`),
+  UNIQUE KEY `switch_reference_UNIQUE` (`switch_reference`),
+  KEY `merch_idx` (`merchant_reference`),
+  KEY `amt_idx` (`amount`),
+  KEY `prod_idx` (`product`),
+  KEY `trans_code_idx` (`trans_code`),
+  KEY `card_num_idx` (`card_number`),
+  KEY `db_bk_idx` (`src_bank_code`),
+  KEY `db_acc_idx` (`src_account`),
+  KEY `cr_bk_idx` (`dest_bank_code`),
+  KEY `cr_acc_idx` (`dest_account`),
+  KEY `rsp_code_idx` (`response_code`),
+  KEY `ch_idx` (`channel`),
+  KEY `sender_mobile_idx` (`sender_phone_number`),
+  KEY `flag_idx` (`flag`),
+  KEY `req_time_idx` (`request_time`),
+  KEY `rsp_time_idx` (`response_time`),
+  KEY `merch_bnk_code_idx` (`merchant_bank_code`),
+  KEY `vas_acc_idx` (`vas_account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+
+CREATE TABLE `transaction_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reference` varchar(55) NOT NULL,
+  `txn_type` varchar(55) NOT NULL,
+  `response_code` varchar(5) DEFAULT NULL,
+  `processor` varchar(25) DEFAULT NULL,
+  `processor_reference` varchar(55) DEFAULT NULL,
+  `processor_response_code` varchar(30) DEFAULT NULL,
+  `processor_message` varchar(150) DEFAULT NULL,
+  `process_attempt` int(1) DEFAULT NULL,
+  `error_state` varchar(164) DEFAULT NULL,
+  `flag` varchar(5) DEFAULT NULL,
+  `node` varchar(45) DEFAULT NULL,
+  `mac` varchar(255) DEFAULT NULL,
+  `request_time` timestamp(3) NULL DEFAULT current_timestamp(3),
+  `response_time` timestamp(3) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ref_type_uniq` (`reference`,`txn_type`),
+  KEY `ref_idx` (`reference`),
+  KEY `pmtype_idx` (`txn_type`),
+  KEY `processor_idx` (`processor`),
+  KEY `processor_reference_idx` (`processor_reference`),
+  KEY `processor_response_code_idx` (`processor_response_code`),
+  KEY `processor_message_idx` (`processor_message`),
+  KEY `rsp_code_idx` (`response_code`),
+  KEY `flag_idx` (`flag`),
+  KEY `req_time_idx` (`request_time`),
+  KEY `rsp_time_idx` (`response_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4

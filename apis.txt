@@ -1,6 +1,8 @@
 Rebirth API - Work done
 
-1. Merchant Interface
+apigateway port is 8090
+
+1. Merchant Interface   port 8803
  1. /merchant  create merchant account
  2. /merchant/login login
  3. /merchant/changepassword change password
@@ -17,7 +19,7 @@ Rebirth API - Work done
  14. /merchant/ipaddres/{id} delete merchant whitelisted ip address
  
  
-2. Admin Interface
+2. Admin Interface  port 8802
   1. /admin  create user account
   2. /admin/login
   3. /admin/users get users
@@ -29,32 +31,33 @@ Rebirth API - Work done
   9. /admin/createrole  creat user role
   10. /admin/edit role
   11. /admin/deleterole/{roleName}  delete role
-  12. /admin/permissions get permissions
-  13. /admin/permissions/{roleName} get permissions by role name
-  14. /admin/addpermission  add user permissions
-  15. /admin/deletepermission/{id}  delete permissions by id
-  16  /admin/getmerchants
-  17. /admin/
-  18. /admin//merchant/status/account/{id}/{status}  change merchant account security profile status - activate, suspend, block user account
-  19. /admin/merchant/status/risk/{id}/{status}  change merchant risk approval security profile status (api live access status)
-  20. /admin/merchant/status/product/{id}/{productCode}/{status}  approve product(service) selected by a merchant - approve or deny
-  21. /admin/merchant/resetpassword/{id}  reset merchant password
-  22. /admin/merchant/resetapicredentials/{id} reset merchant api credentials
-  23. /admin/lytswitch/generateapicredentials  create LytSwitch api credentials
-  24. /admin/lytswitch/addipaddress/{id}  add ip address to LytSwitch credential to whitelist
-  25. /admin/lytswitch/status/apicredential/{id}/{status}  enable or disable ls api credential
-  26. /admin/lytswitch/apicredential/{id}  delete ls api credential 
-  27. /admin/lytswitch/apicredentials/{id}  get all ls api credentials
-  28. /admin//merchant/products/{id}  get a merchant's services/products
-  29. /admin//merchant/products  get all merchants product
-  30. /admin/merchant/{id} delete merchant
-  31. /admin/merchant/uploads/{id} get merchant uploaded files
-  32. /admin/
+  12. /admin/getroles  get all user roles in the 
+  13. /admin/permissions get permissions
+  14. /admin/permissions/{roleName} get permissions by role name
+  15. /admin/addpermission  add user permissions
+  16. /admin/deletepermission/{id}  delete permissions by id
+  17  /admin/getmerchants
+  18. /admin/
+  19. /admin/merchant/status/account/{id}/{status}  change merchant account security profile status - activate, suspend, block user account
+  20. /admin/merchant/status/risk/{id}/{status}  change merchant risk approval security profile status (api live access status) //Approve merchant Go-Live
+  21. /admin/merchant/status/product/{id}/{productCode}/{status}  approve product(service) selected by a merchant - approve or deny
+  22. /admin/merchant/resetpassword/{id}  reset merchant password
+  23. /admin/merchant/resetapicredentials/{id} reset merchant api credentials
+  24. /admin/lytswitch/generateapicredentials  create LytSwitch api credentials
+  25. /admin/lytswitch/addipaddress/{id}  add ip address to LytSwitch credential to whitelist
+  26. /admin/lytswitch/status/apicredential/{id}/{status}  enable or disable ls api credential
+  27. /admin/lytswitch/apicredential/{id}  delete ls api credential 
+  28. /admin/lytswitch/apicredentials/  get all ls api credentials
+  29. /admin//merchant/products/{id}  get a merchant's services/products
+  30. /admin//merchant/products  get all merchants product
+  31. /admin/merchant/{id} delete merchant
+  32. /admin/merchant/uploads/{id} get merchant uploaded files
+  33. /admin/
+  
  
  
  
- 
-3. Config Service
+3. Config Service  port 8801
   1. /config/ add new config property(key-value pair)
   2. /config/{id} update config
   3. /config/configs get all configs
@@ -65,7 +68,7 @@ Rebirth API - Work done
  
  
  
-4. Service registry - used by developers to register their apis on the platform
+4. Service registry - used by developers to register their apis on the platform  port 8805
   1. /serviceregister/registerNewService  register/add new api 
   2. /serviceregister/  update service register
   3. /serviceregister/services get all registered services/api
@@ -75,7 +78,7 @@ Rebirth API - Work done
   
   
   
-5.  Services/Products services or products available on the platform
+5.  Services/Products services or products available on the platform  eg, momo, airtime, bill port 8804
    1. /services/ post new service
    2. /services/{code}  update service
    3. /services/  get services

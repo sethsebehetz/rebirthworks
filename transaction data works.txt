@@ -1,7 +1,5 @@
 Proposed Transactions Table
 -----
-
-
 The current platform has every system keeping their own transaction records or database. This has resulted in a multitude of database cluster in the ETZ environment. Eg major clients to AS eg FundGate, Justpay all keep their
 independent tables to store their transactions data.
 This new platform avoids this by having a central database for all transactions. These tables will be well designed to cater for any specific use case and be able to satify all data requirements that will arise
@@ -116,38 +114,6 @@ TRANSACTION TABLE DESIGN/ANALYSIS
 	note: trans_code table: do we need it? shd be hard coded in a class so a devloper can access all the various transacodes during impl
 	
 	
-	CREATE TABLE `transaction` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `merchant_code` varchar(25) NOT NULL,
-  `reference` varchar(55) NOT NULL,
-  `switch_reference` varchar(55) NOT NULL,
-  `merchant_reference` varchar(55) DEFAULT NULL,
-  `amount` decimal(10,2) DEFAULT NULL,
-  `fee` decimal(6,2) DEFAULT NULL,
-  `elevy` decimal(6,2) DEFAULT NULL,
-  `description` varchar(150) DEFAULT NULL,
-  `product` varchar(45) DEFAULT NULL,
-  `trans_code` varchar(5) DEFAULT NULL,
-  `card_number` varchar(65) DEFAULT NULL,
-  `debit_bank_code` varchar(6) DEFAULT NULL,
-  `debit_account` varchar(25) DEFAULT NULL,
-  `credit_bank_code` varchar(6) DEFAULT NULL,
-  `credit_account` varchar(25) DEFAULT NULL,
-  `response_code` varchar(5) DEFAULT NULL,
-  `customer_reference` varchar(45) DEFAULT NULL,
-  `channel` varchar(5) DEFAULT NULL,
-  `sender_mobile` varchar(25) DEFAULT NULL,
-  `flag` varchar(5) DEFAULT NULL,
-  `mac` varchar(64) DEFAULT NULL,
-  `request_id` varchar(40) DEFAULT NULL,
-  `request_time` timestamp NULL DEFAULT current_timestamp(),
-  `response_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `reference_UNIQUE` (`reference`),
-  UNIQUE KEY `switch_reference_UNIQUE` (`switch_reference`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-
-
 
 emtc = 46 cols		
 erequestlog 18 cols
@@ -228,16 +194,20 @@ TRANSACTION_DETAIL TABLE DESIGN/ANALYSIS
 
 JAVA POJOS
 =============
-"transaction" : {          // this same request(plus switch params like switch reference etc) will be forwarded to the processor bridges since it contains all needed params    v1/lytswitch/cbs
-		"merchantCode" : "",	
+"transaction" : {          // this same request(plus switch params like switch reference etc) will be forwarded to the processor bridges since it contains all needed params    v1/lytswitch/client/cba
+		"merchantCode" : "",
+		"transCode" : "",		
 		"reference":"",
 		"merchantReference" : "",
-		"amount" : ,
-		"fee" : ,
-	    "elevy" : ,
+		"amount" : 6.00,    //all amounts will be in two decimal places
+		"fee" : {
+			"txnFee": 2.00,
+			"elevy": 1.40,
+			"otherFee": 0			
+		} 
 		"description" : "",
-		"product" : "",	   
-		"transCode" : "",		
+		"product" : "",	    //product been paid for eg MTN AIRTIME, DSTV
+				
 		"cardNumber" : "",
 		"debitBankCode" : "",
 	    "debitAccount" : "",
@@ -247,63 +217,81 @@ JAVA POJOS
 		"customerReference" : "",		
 		"channel" : "",
 		"senderMobile":"",
-		"pin" : "",
+		"pin" : "",  //pin only sent for processors that handle cms themselves
 		"requestId":""		
 	},
 	
 response{
-   "response":{
-		"responseCode":"",
-		"reference":"",
-		"switchReference":"",
-		"balance": 45,
+  {
+    "response": {
+        "responseCode": "",
+        "reference": "",
+        "switchReference": "",
+        "balance": 45,
+        "bankReference": "",
 		"isReversed": false
-	}
-	"statement":[
-		{
-		"amount":3
-		"type":"dr",
-		"description":""
+    },
+	"statement": [
+        {
+            "amount": 3,
+		"type": "dr",
+            "description": "",
 		"date": "23-04-2023"
-		}
-	],
-	"debitProcessor":{
-	  "name":"MTN",
-	  "responseCode":""
-	  "reference":"",
-	  "message":""	  
-	},
-	"creditProcessor":{
-	  "name":"MTN",
-	  "responseCode":""
-	  "reference":"",
-	  "message":""	  
-	},
-	"custom":{
-		"data":""
-	},
-	"metrics":{
-		"processTime":"",
-		"requestTime":"",
-		"responseTime":""
-	}
-	
+        }
+    ],
+    "debitProcessor": {
+        "name": "MTN",
+        "responseCode": "",
+	  "reference": "",
+        "message": ""
+    },
+    "creditProcessor": {
+        "name": "MTN",
+        "responseCode": "",
+	  "reference": "",
+        "message": ""
+    },
+    "accountData": [
+        {
+            "accountName": "",
+            "accountNumber": "",
+            "GHCardNumber": "",
+            "accountBranch": "",
+            "accountType": "",
+            "accountStatus": "",//1=active,0 for inactive/disabled ie bank telling us that this account is a restricted account
+		  "phoneNumbers": [
+                "23324400000",
+                "23324400001"
+            ],
+            "info1": "",
+            "info2": ""
+        }
+    ],
+	"custom": {
+        "data": "" //custom json string
+    },
+    "metrics": {
+        "processTime": "",
+        "requestTime": "",
+        "responseTime": ""
+    }
 }
-mac = hmac(amount+reference+debitAccount+creditAccount , secret);
 
 
 Response Codes  note there should be a column isReversed to indicate the reversal action - values yes,no,na
 00 Transaction Successful. The transaction has been approved and processed successfully.
-06 Transaction Failed. 
+06 Transaction Failed. Transaction Failed
 
-
-12 Invalid transaction type. The transaction type is invalid. Please check the transaction type and try again
-13 Invalid amount. The transaction amount is invalid. Please check the transaction amount and try again.   
-14 Invalid account number. The account number is invalid. Please check the account number and try again.
-15 Invalid transaction fee - The transaction was declined due to an unacceptable transaction fee
-16 Invalid Merchant - The merchant  entered is invalid. Please check the merchant code and try again.
-17 Invalid Transaction Reference - The transaction reference entered is invalid. Please check the transaction reference and try again.
-18 Invalid request. The request data or format provided is not valid.
+10 Missing required parameters. One or more of required parameters are missing in the request body
+11 Missing required headers. One or more of required headers are missing in the request headers
+12 Invalid transaction type. Unknown TransCode. The transaction type is invalid. Please check the transaction type and try again
+13 Transaction type disabled. Contact system administrator 
+14 Invalid amount. The transaction amount is invalid. Please check the transaction amount and try again.   
+15 Invalid account number. The account number is invalid. Please check the account number and try again.
+16 Invalid transaction fee - The transaction was declined due to an unacceptable transaction fee
+17 Invalid Merchant - The merchant  entered is invalid. Please check the merchant code and try again.
+18 Invalid Transaction Reference - The transaction reference entered is invalid. Please check the transaction reference and try again.
+19 Invalid request. The request data or format provided is not valid.
 
 20 Wrong Pin : The PIN entered is invalid. Account may be locked
 21 Pin tries exceed. Maximum allowable wrong pin tries exceeded.
@@ -313,28 +301,42 @@ Response Codes  note there should be a column isReversed to indicate the reversa
 31 Transaction Pending. No status of transaction available. Transaction processed but final response not available. Check again later or do status check to get final status.
 32 Transaction in progress. The transaction is being processed and a response is not yet available. Mostly for use txns that are processed asynchronously
 
-50 Limit Exceeded - The account has reached its allowable limit to transact. Please contact customer support for more information.
+
+40 Key exchange not completed. Incoming request will be rejected;
+41. Key exchange failed. Failed key exchange with node. Node cannot process any request. Retry key exchange
+42. Health check/echo failed. Failed health check with node. Retry health check
+43. Decryption Error
+44. Security Error. Authentication Error. Account blocked
+45. Security Error. Authentication Error. Identity not found
+46. Security Error. Authentication Error. Duplicate nonce
+48. Security Error. Authentication Failed. 
+49. Security Error. Authorization Failed. 
+
+50 Spending Limit Exceeded - The account has reached its allowable limit to transact. Please contact customer support for more information.
 51 Insufficient Funds. The account does not have sufficient funds to process the transaction. Please add funds to the account and try again.
 52 Account restricted - The account has been closed, blocked inactive or suspended. Please contact customer support for more information.  The account is restricted and cannot be used for the transaction
 
 64 Transaction Not Found - The transaction with the provided transaction ID could not be found. Please check the transaction ID and try again.
+65 No record found. No record found 
 
-91 No route defined for bank. Contact system administrator
-92 Issuer Not available - The bank is currently unavailable. Please try again later. Issuer or switch is inoperative   
-94 Duplicate transaction. The transaction has already been processed. Please check the transaction history and try again.
-95 Timeout Error. The transaction has timed out. Please check if funds have not moved before trying again after some few minutes.
-96 System error. There was an error processing the transaction. Please check if funds have not moved before trying again after some few minutes.
-97 Unknown Error
-  
+91 No route defined for Issuer. Contact system administrator
+92 Issuer inactive or route disabled. Contact system administrator 
+93 Node is currently down due to failed health checks. Please try again later
+94 Duplicate reference. The transaction has already been processed. Resend transaction with a new reference
+95 Connection timeout. Unable to connect to the node. Please check if funds have not moved before trying again after some few minutes.
+//96 Application error. Error processing the request. Please check if funds have not moved before trying again after some few minutes.  //error in application usually caught in try block// suspended same as system error
+96 System error. Error processing the transaction. Please check if funds have not moved before trying again after some few minutes. //for api responses eg null etc
+98 Unknown Error
+99 Read timeout. The transaction has timed out. No response received from node. Please check if funds have not moved before trying again after some few minutes.
+      
 
-   
-   
-   
-   
-
-   
-   
-   
-   
-   
+Special Errors for Mobile Money Transaction
+------
+1000 Account not registered
+1001
+1002
+1003
+1004
+1005
+1006   
    

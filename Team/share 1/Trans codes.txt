@@ -1,0 +1,51 @@
+  Transcodes ls 
+  ----
+  properties of Transcode table - name, code, requires_debit, requires_credit, allow_reversal, async, log_txn, status (0 = disabled, 1 - enabled), created
+  
+  TRANSCODES 
+	mobile bankinig
+	  Account Lookup account number ALA
+	  Account Lookup phoneNumber ALP
+	  
+	  Balance Enquiry	BE
+	  Mini Statement	MS
+	  Full Statement	FS	  
+	  
+	  Bank To Wallet	B2W
+	  Wallet To Bank	W2B	  
+	  Account to Account  A2A
+	  InterBank Transfer  IBT
+	  
+	  Airtime Top up	ATU
+	  Bill Payment 		BP
+	  
+	  Status Query		SQ
+	  Reversal			RVSL	  
+	  
+	  
+	  Custom Request	CR
+  
+  Remittance		RM
+  Credit 			CR
+  Debit				DR
+  Payment			PMNT
+  Withdrawal		WD
+  Purchase			PC
+  
+  
+
+  
+  
+
+  CMS Trans code - ls will send these requests to the cms url of the node
+  ----
+  Profile Lookup - record from ecard table
+  Create account without pin
+  Create Account with PIN
+  Add Account
+  Verify pin
+  Change Pin
+  Custom //used for apis like AL, APL etc. the apis are extra apis defined by the programmers based on their agreed contract
+
+
+

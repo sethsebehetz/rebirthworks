@@ -14,7 +14,6 @@ momo credit - public
 		"receiverName" : "", //O  - but strongly recommended this is always available from the account verification API 
 		"receiverMsisdn" : "", //O
 		"receiverLocation" : ""		//O		
-		
 }
 
 momo debit - public
@@ -30,7 +29,6 @@ momo debit - public
 		"senderName" : "", //O - but strongly recommended. name of customer been debited
 		"senderMsisdn" : "", //R - msisdn of number been debited
 		"senderLocation" : "", //O  - location of customer been debited		
-		"callbackUrl":"" //O - callback url
 }
 
 credit bank account - public 
@@ -64,6 +62,7 @@ Proposed vasgate request
 }
 
 Proposed vasgate response
+
 {
     "error": "00",
     "message": "Verification Successful",
@@ -78,7 +77,7 @@ Proposed vasgate response
                 "amount": 0.5,
                 "vas_code": "ovneonvewovwne==",
                 "type": "fixed",
-                "category": "Data Bundle"`
+                "category": "Data Bundle"
             },
             {
                 "name": "MTN Flexi Bundle 50SMS",

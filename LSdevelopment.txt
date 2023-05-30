@@ -43,21 +43,14 @@ fee are sent by caller
 fee services to be developed
 
 
-microservices flow
------
-1. request from api gateway
-2. retrieve merchant data (merchant code, accountId and add to the header/body)
-3. call fee service if it applies and set the fee
-4. validate request ie check params if request is correct
-5. if Elevy applies, confirm the elevy amount using the reference passed. same reference was used by merchant to get the elevy
-6. Generate LS request, encrypt data
-7. LS calls requires authorisaction ie set auth header in request
-8. call LS
-
 
 Key discussion
 *data encryption - AES CBC
 *response json  { error, message, reference etc}
+
+ls flow analysis
+-
+filter does authentication
 
 
 LS security  
@@ -146,6 +139,7 @@ momo engine - how to handle w2b or 2nd leg of momo debit txns
 txn status
 metrics/performance statistics
 cms
-bulkhead
+circuit breaker
 custom apis
+
 

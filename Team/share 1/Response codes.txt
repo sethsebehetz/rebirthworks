@@ -1,0 +1,59 @@
+Response Codes  note there should be a column isReversed to indicate the reversal action - values yes,no,na
+00 Transaction Successful. The transaction has been approved and processed successfully.
+06 Transaction Failed. Transaction Failed
+
+10 Missing required parameters. One or more of required parameters are missing in the request body
+11 Missing required headers. One or more of required headers are missing in the request headers
+12 Invalid transaction type. Unknown TransCode. The transaction type is invalid. Please check the transaction type and try again
+13 Transaction type disabled. Contact system administrator 
+14 Invalid amount. The transaction amount is invalid. Please check the transaction amount and try again.   
+15 Invalid account number. The account number is invalid. Please check the account number and try again.
+16 Invalid transaction fee - The transaction was declined due to an unacceptable transaction fee
+17 Invalid Merchant - The merchant  entered is invalid. Please check the merchant code and try again.
+18 Invalid Transaction Reference - The transaction reference entered is invalid. Please check the transaction reference and try again.
+19 Invalid request. The request data or format provided is not valid.
+
+20 Wrong Pin : The PIN entered is invalid. Account may be locked
+21 Pin tries exceed. Maximum allowable wrong pin tries exceeded.
+22 Transaction rejected. The transaction has been rejected by the switch. Please contact customer support for more information.
+29 Suspected Fraud.  eg. Transaction not allowed because of suspected fraud. eg mac check failed   
+
+31 Transaction Pending. No status of transaction available. Transaction processed but final response not available. Check again later or do status check to get final status.
+32 Transaction in progress. The transaction is being processed and a response is not yet available. Mostly for use txns that are processed asynchronously
+
+
+40 Key exchange not completed. Incoming request will be rejected;
+41. Key exchange failed. Failed key exchange with node. Node cannot process any request. Retry key exchange
+42. Health check/echo failed. Failed health check with node. Retry health check
+43. Decryption Error
+44. Security Error. Authentication Error. Account blocked
+45. Security Error. Authentication Error. Identity not found
+46. Security Error. Authentication Error. Duplicate nonce
+48. Security Error. Authentication Failed. 
+
+50 Spending Limit Exceeded - The account has reached its allowable limit to transact. Please contact customer support for more information.
+51 Insufficient Funds. The account does not have sufficient funds to process the transaction. Please add funds to the account and try again.
+52 Account restricted - The account has been closed, blocked inactive or suspended. Please contact customer support for more information.  The account is restricted and cannot be used for the transaction
+
+64 Transaction Not Found - The transaction with the provided transaction ID could not be found. Please check the transaction ID and try again.
+65 No record found. No record found 
+
+91 No route defined for Issuer. Contact system administrator
+92 Issuer inactive or route disabled. Contact system administrator 
+93 Node is currently down due to failed health checks. Please try again later
+94 Duplicate reference. The transaction has already been processed. Resend transaction with a new reference
+95 Connection timeout. Unable to connect to the node. Please check if funds have not moved before trying again after some few minutes.
+96 System error. Error processing the transaction. Please check if funds have not moved before trying again after some few minutes.
+97 Application error. Error processing the request. Please check if funds have not moved before trying again after some few minutes.
+98 Unknown Error
+99 Read timeout. The transaction has timed out. No response received from node. Please check if funds have not moved before trying again after some few minutes.
+
+Special Errors for Mobile Money Transaction
+------
+1000 Account not registered
+1001
+1002
+1003
+1004
+1005
+1006   

@@ -149,12 +149,103 @@ LS development analysis
 2. banks api crud, bugs troubleshooting and testing
 4. node, routes crud api - ongoing
 
+17.04.2023
+-
+1. node, routes crud api - completed
+2. response codes crud api
 
+18.04.2023
+---
+1. work on presentation to team members
 
+19.04.2023
+---
+1. deploy to test environment
+2. presentation to team members
 
+21.04.2023
+----
+1. share work to be done with team members b4 starting my leave
 
+22.04.2023
+----
+1. updated LS CacheRegitry Global variables to type Map(ConcurrentHashMap)
 
-4. devt of key exchange
+23.04.2023
+--
+1. LS kx development
 
+24.04.2023
+--
+1. LS kx development
+2. LS Demo processor development
 
-5. demo xchange(node)
+25. 04.2023
+1. LS Demo processor kx development
+2. LS Key kx development testing
+3. LS Key kx development completed
+
+26.04 - 01-05 2023
+--
+1. LS Health/Echo analysis
+2. LS Health/Echo devt 
+3. LS Health/Echo node development
+4. custom circuit breaker analysis/development
+
+01.05.2023
+--
+1. LS Health/Echo devt completed
+2. LS Health/Echo node devt completed
+
+02.05.2023
+--
+1. demo processor liveness check update
+2. demo processor cba functions implementation
+
+03.05.2023
+--
+1. demo processor impl completed
+2. demo processor testing completed
+
+04.05.2023
+--
+1.digital signature implementation as part of key exchange completed
+
+05.06.2023
+--
+dsa completed
+
+06.05.2023
+--
+1. https set up for ls and processor
+2. LS transaction api flow analysis
+
+07.05.2023.
+----
+LS transaction api flow & dev analysis
+
+08.05.2023 
+--
+LS transaction api flow & dev analysis
+
+09.05.2023 
+--
+LS transaction api flow & dev analysis
+
+10.05.2023
+--
+
+15-22 05 2023
+--
+ls flow development 
+
+26-28 05 2023
+---
+ls flow development
+ls client devt 
+ls flow testing
+
+22-30 05 2023
+--
+ls flow development
+ls flow testing

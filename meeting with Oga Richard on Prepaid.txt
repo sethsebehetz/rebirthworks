@@ -1,0 +1,36 @@
+34.211.160.25
+CardMaster Platform Architecture
+
+nginx -> wildfly - proxy architecture
+
+--type=service --state=running
+
+
+services running
+cardmaster.service - built on wildfly.servce
+hsmboostservver.servicce  - interface cardmaster to the hsm. hsm does encryption inside your cpu
+ghipssiso.service - manages ghips interface and tmc ISO. Ghipps Service ISO8583
+ghippsgip.service - for gip instant transfer
+ghippsiso.service
+tmcha.service
+ghipssdemo - for testing. connected to tmc on the cloud. not the tmc on this server
+
+
+
+account managaement system - waas
+
+tmc is always checking that connection to see that the ghippsiso is up. it can fire an email if for a period it has not got response
+
+all the services are located in the opt folder
+cd /opt/ 
+cd -l
+
+
+xchange - translate protocol from TMC to another system
+
+rm -r -f filename
+
+journalctl -u name.service -f -n200
+
+
+ghipss if u dont send keep alive they will disconnect us

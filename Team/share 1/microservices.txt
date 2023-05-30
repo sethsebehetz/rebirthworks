@@ -1,0 +1,38 @@
+1. LytSwitch  \ Seth
+2. Verification Microservice  \ Nii
+3. Vas Procesor Microservice \ Nii
+4. Mobile Money Processor Microservice \ Ernest
+5. GIP Processor Microservice	\ Sammy
+6. ETZ GH Link Card Processor Microservice \ Nii
+7. Merchant Microservice \ Seth
+8. Admininistration Microservice \ Seth
+9. Config Microservice \ Seth
+10. Status Check Microservice \ Eugene
+11. Reprocessing Microservice \ Nii
+12. Transaction Notification/Callback Micro service 
+13. Fees Microservice \ Eugene
+14. USSD Builder Phase II \ Eugene, Michael
+15. Mobile Banking Microservice \Seth\Nii\Eugene
+16. CMS Microservice \Eugene
+17. Autodebit Microservice \ Gad
+18. Ticketing/Events Microservice \ Thompson
+19. Merchant Interface Web Portal \ Michael
+20. Developer Portal \ Michael
+21. SMS Microservice \ Ernest
+22. Email Microservice \ Seth
+23. Invoicing Microservice \ Thompson
+24. Loyalty Microservie \ Obeng
+25. Schedule Payment Microservice \ Gad
+26. Config Microservice \ Seth
+27. Banks CBA Microservices \ Sammy, Obeng  
+28. Autoswitch Processor Microservice \ Seth, Eugene
+29. Bulk Transfer Payment Microservice \ Nana Yaw
+30. Bulk Vas Microservice  \ Nana Yaw
+31. Billing System Microservice
+32. Mobile App Interfaces \ Thompson, Oben
+33. Alert Notification Microservice \ 
+34. Settlement System Microservice 
+35. Reporting APIs Microservice \ Nana Yaw
+36. Reimplemention of Vas Gate Billers Service \ Gideon, Benedict 
+37. Momo Engine like microservices
+38. Momo Debit microservices

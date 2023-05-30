@@ -1,0 +1,83 @@
+Required for FundGate
+==================
+Verification   Nii
+Vas Processor  Nii
+Mobile Money  
+   MTN   Seth
+   Vodafone Obeng - Important notice - vodafone debit and credit is async so should be factored
+   AirtelTigo  Gad
+GIP Bank Transfer  Sammy
+Airtime - MTN, Vodafone, AirtelTigo per new vas API contract
+ETZ GH Link Card   Nii/Obeng
+Bulk Transfer  NY
+Bulk Payment NY
+Bulk Airtime NY
+Elevy service = 
+
+Needed for FG
+----
+LytSwitch  Seth
+Merchant Service Seth
+Admin Service Seth
+Config Service Seth
+Status Check  Eugene
+Reprocessing  Gad, Nii
+Transaction Notification Service/Callback service   Thompson
+Fees Eugene
+
+
+USSD Builder/SAS - (phase 1 ready)
+Mobile Banking
+CMS
+Auto Debit
+Merchant Pay
+Ticketing/Events
+SMS
+Invoicing (Merchant Receiving Money from Customer)
+Loyalty  Obeng
+Shedule Payment
+Email
+
+
+
+Processors
+Mobile Money
+AutoSwitch1. LytSwitch
+2. Verification Micro Service
+3. Vas Procesor Micro Service
+4. Mobile Money Processor Microservice
+5. GIP Processor Microservice
+6. ETZ GH Link Card Processor Microservice
+7. Merchant Microservice
+8. Admininistration Microservice
+9. Config Microservice
+10. Status Check Microservice
+11. Reprocessing Microservice
+12. Transaction Notification/Callback Micro service
+13. Fees Microservice
+14. USSD Builder Phase II
+15. Mobile Banking Microservice
+16. CMS Microservice
+17. Autodebit Microservice
+18. Ticketing/Events Microservice
+19. Merchant Interface Web Portal
+20. Developer Portal
+21. SMS Microservice
+22. Email Microservice
+23. Invoicing Microservice 
+24. Loyalty Microservie
+25. Schedule Payment Microservice
+26. Config Microservice
+27. Banks CBA Microservices 
+28. Autoswitch Processor Microservice
+29. Bulk Transfer Payment Microservice
+30. Bulk Vas Microservice
+31. Billing System
+32. Mobile App Interfaces
+33. Alert Notification Service
+34. Momo Engine
+
+
+Banks CBA
+GIP
+GH-Link Card - v1,v2

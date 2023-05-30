@@ -13,4 +13,12 @@ new microservices
  merchant sub merchant settlement
  status checker
  
- 
+
+
+TODO
+--
+option to use cpool or hikari
+update cpool connection parameters
+separate config and secrets. configs goes to the external config service
+update refresh of cached tables. possible concurrent modifications errors. also list/map is cleared before new data added(this is a bug, loop is preferred so they are updated instead of clearing the cache first).
+  also using a synchronized collection and also updating in a syncronized way

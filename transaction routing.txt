@@ -13,8 +13,12 @@ Routing is defined based on the issuer code
 
 Properties
 ===
-id, name, issuer_code, ip, port, path, require_cms, cms_url, connection_status (1 connected, 2 disconnected) , kx_status
+node table
+id, name, issuer_code, ip, port, path, requires_cms, cms_url, connection_status (1 connected, 0 disconnected) , kx_status
 last_connected, active (enabled or disabled), enforce_ip (ip whitelisting with exchange), kid
+
+route table
+node id, bin
 
 note:
 auto update of node to refresh statuses
